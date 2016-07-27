@@ -61,6 +61,8 @@ public class LightBike extends Canvas {
 	}
 	
 	public void mainMenu(){
+		final int TITLE_RATIO = 4;
+		
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		
 		g.setColor(Color.black);
@@ -71,7 +73,7 @@ public class LightBike extends Canvas {
 		g.setFont(titleFont);
 		g.setColor(LIME_GREEN);
 		
-		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/4);
+		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 		
 		g.dispose();
 		bufferStrategy.show();
