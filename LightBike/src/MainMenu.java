@@ -20,6 +20,7 @@ public class MainMenu extends JPanel implements ActionListener {
 	//Game window will be 720p
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
+	public static boolean inMenu = 1;
 
 	public MainMenu() {
 		addKeyListener(new TAdapter());
@@ -27,8 +28,17 @@ public class MainMenu extends JPanel implements ActionListener {
 		setFocusable(true);
 		
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+	}
+	
+	public void mainMenu(Graphics g) {
+		String button1 = "Start";
+		String button2 = "Settings";
+		String button3 = "Quit";
 		
+		Font menuFont = new Font("Helvetica", Font.BOLD, 18);
 		
+		g.setFont(menuFont);
+		g.setColor(Color.green);
 	}
 	
 	@Override
@@ -37,6 +47,15 @@ public class MainMenu extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
+	
+	private void doDrawing(Graphics g) {
+		if (inGame) {
+			
+		}
+		else {
+			
+		}
+	}
 	
 	private void startGame() {
 		

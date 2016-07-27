@@ -13,6 +13,7 @@ public class LightBike extends JFrame {
 		pack();
 
 		setTitle(WINDOW_TITLE);
+		setIgnoreRepaint(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
