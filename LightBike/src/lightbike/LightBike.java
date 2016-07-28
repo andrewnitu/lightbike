@@ -23,7 +23,8 @@ public class LightBike extends Canvas {
 	public static final String WINDOW_TITLE = "Java LightBike";
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
-	public static final Color LIME_GREEN = new Color(0,255,0);
+	public static final Color LIME_GREEN = new Color(0, 255, 0);
+	public static final Color RED = new Color(255, 0, 0);
 
 	private BufferStrategy bufferStrategy;
 	
@@ -80,7 +81,8 @@ public class LightBike extends Canvas {
 		
 		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 		
-		Button test = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Color.GREEN, "Test", g);
+		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, LIME_GREEN, "Play", g);
+		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, RED, "Quit", g);
 		
 		g.dispose();
 		bufferStrategy.show();
