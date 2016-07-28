@@ -1,3 +1,5 @@
+package lightbike;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 
+// Main class
 public class LightBike extends Canvas {
 	public static final String WINDOW_TITLE = "Java LightBike";
 	public static final int WINDOW_WIDTH = 1280;
@@ -23,7 +26,6 @@ public class LightBike extends Canvas {
 	public static final Color LIME_GREEN = new Color(0,255,0);
 	private BufferStrategy bufferStrategy;
 	
-
 	public LightBike() {
 		JFrame container = new JFrame(WINDOW_TITLE);
 		
@@ -74,6 +76,8 @@ public class LightBike extends Canvas {
 		g.setColor(LIME_GREEN);
 		
 		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
+		
+		Button test = new Button(20, 20, 100, 100, Color.GREEN, "Test", g);
 		
 		g.dispose();
 		bufferStrategy.show();
