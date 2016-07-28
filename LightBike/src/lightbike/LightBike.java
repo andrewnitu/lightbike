@@ -24,6 +24,7 @@ public class LightBike extends Canvas {
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final Color LIME_GREEN = new Color(0,255,0);
+
 	private BufferStrategy bufferStrategy;
 	
 	public LightBike() {
@@ -64,6 +65,8 @@ public class LightBike extends Canvas {
 	
 	public void mainMenu(){
 		final int TITLE_RATIO = 4;
+		final int BUTTON_WIDTH = 300;
+		final int BUTTON_HEIGHT = 50;
 		
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		
@@ -77,7 +80,7 @@ public class LightBike extends Canvas {
 		
 		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 		
-		Button test = new Button(20, 20, 100, 100, Color.GREEN, "Test", g);
+		Button test = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Color.GREEN, "Test", g);
 		
 		g.dispose();
 		bufferStrategy.show();
