@@ -50,7 +50,7 @@ public class LightBike extends Canvas {
 			}
 		});
 		
-		addKeyListener(new KeyInputHandler());
+		addKeyListener(new KeyboardInput());
 		
 		requestFocus();
 		
@@ -58,10 +58,6 @@ public class LightBike extends Canvas {
 		bufferStrategy = getBufferStrategy();
 		
 		mainMenu();
-	}
-	
-	private class KeyInputHandler extends KeyAdapter {
-		
 	}
 	
 	public void mainMenu(){
