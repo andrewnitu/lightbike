@@ -51,6 +51,8 @@ public class LightBike extends Canvas {
 		});
 		
 		addKeyListener(new KeyboardInput());
+		addMouseListener(new MouseInputMainMenu());
+		addMouseMotionListener(new MouseInputMainMenu());
 		
 		requestFocus();
 		
