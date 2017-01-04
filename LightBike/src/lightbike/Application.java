@@ -4,8 +4,6 @@ import javax.swing.JFrame;
 import java.awt.EventQueue;
 
 public class Application extends JFrame {
-	public static final int WINDOW_SIZE_X = 1280;
-	public static final int WINDOW_SIZE_Y = 720;
 	private static final String WINDOW_TITLE = "LightBike";
 	
 	public Application() {
@@ -15,11 +13,11 @@ public class Application extends JFrame {
 	private void initialize() {
 		add(new LightBike());
 		
-		setSize(WINDOW_SIZE_X, WINDOW_SIZE_Y);
 		setResizable(false);
 		setTitle(WINDOW_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		pack();
 	}
 	
 	public static void main(String[] args) {
