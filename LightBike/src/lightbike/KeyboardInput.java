@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 
 public class KeyboardInput extends KeyAdapter {
 	public void keyPressed (KeyEvent e) {
-		System.out.println("Key typed: " + e.getKeyCode());
+		if (e.getKeyCode() == KeyEvent.VK_UP)
+			LightBike.updateButtons(0);
+		else
+			LightBike.updateButtons(1);	
 	}
 }

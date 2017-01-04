@@ -1,123 +1,144 @@
 package lightbike;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 
 // Main class
-public class LightBike extends Canvas {
-	public static final String WINDOW_TITLE = "Java LightBike";
-	public static final int WINDOW_WIDTH = 1280;
-	public static final int WINDOW_HEIGHT = 720;
+public class LightBike extends JPanel {
 	public static final Color LIME_GREEN = new Color(0, 255, 0);
 	public static final Color RED = new Color(255, 0, 0);
 	public static final Color BLACK = new Color(0, 0, 0);
-	public static int mouseX = 0;
-	public static int mouseY = 0;
+	public static final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
+	public static final int BUTTON_WIDTH = 300;
+	public static final int BUTTON_HEIGHT = 50;
+	public static final int WINDOW_WIDTH = 1280;
+	public static final int WINDOW_HEIGHT = 720;
+	public static final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
+	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 32);
+	
 	public static ArrayList<Button> buttonList = new ArrayList<Button>();
-	private static BufferStrategy bufferStrategy;
-
+	public static int currentButton = 0;
+	
 	public LightBike() {
-		JFrame container = new JFrame(WINDOW_TITLE);
-
-		JPanel panel = (JPanel) container.getContentPane();
-		panel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		panel.setLayout(null);
-
-		setBounds(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-		panel.add(this);
-
-		setIgnoreRepaint(true);
-
-		container.pack();
-		container.setResizable(false);
-		container.setVisible(true);
-
-		container.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
-
-		addKeyListener(new KeyboardInput());
-
-		requestFocus();
-
-		createBufferStrategy(2);
-		bufferStrategy = getBufferStrategy();
-
-		mainMenu();
+		initializeMenu();
 	}
+	
+	// with help from http://zetcode.com/tutorials/javagamestutorial/movingsprites/
+	
+	private void initializeMenu() {
+		addKeyListener(new TAdapter());
+		setFocusable(true);
+		setDoubleBuffered(true);
+		setBackground(BLACK);
+		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		
+		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, LIME_GREEN, "Play", BUTTON_FONT);
+		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, RED, "Quit", BUTTON_FONT);
 
-	public void mainMenu() {
-		final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
-		final int BUTTON_WIDTH = 300;
-		final int BUTTON_HEIGHT = 50;
-
-		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-
-		g.setColor(Color.black);
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		Font titleFont = new Font("Helvetica",Font.BOLD,128);
-		FontMetrics titleMetrics = g.getFontMetrics(titleFont);
-		g.setFont(titleFont);
-		g.setColor(LIME_GREEN);
-
-		g.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
-
-		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, LIME_GREEN, "Play", g);
-		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, RED, "Quit", g);
-
-		buttonList.add(play); //add all the buttons to an arraylist for checking mouse
+		buttonList.add(play);
 		buttonList.add(quit);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		drawMainMenu(g);
+		
+		Toolkit.getDefaultToolkit().sync();
+	}
+	
+	private class TAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+           processKeyPressed(e);
+        }
+	}   
+	
+	public void processKeyPressed(KeyEvent event) {
+		 int key = event.getKeyCode();
 
-		bufferStrategy.show();
+		 if (key == KeyEvent.VK_UP) {
+			 changeButton(0);
+		 }
+
+		 if (key == KeyEvent.VK_DOWN) {
+			 changeButton(1);
+		 }
+		 
+		 repaint();
 	}
 
-	public static void updateButtons(boolean moved, boolean clicked) {
-		for (int i = 0; i < buttonList.size(); i++) { //go through all the buttons
-			Button currentButton = buttonList.get(i);
+	public void drawMainMenu(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
 
-			if (moved) {
-				if (currentButton.checkMouseInBounds() == true) { //check if the mouse is within each button, if it is then update the button
-					System.out.println("LEL");
-					currentButton.change(1);
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		
+		g2d.setRenderingHints(rh);
+		
+		g2d.setColor(BLACK);
+		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
+		g2d.setFont(TITLE_FONT);
+		g2d.setColor(LIME_GREEN);
 
-					bufferStrategy.show();
-					break; //exit the loop once a button is updated, only one button can be updated at once
-				}
-				else if (currentButton.checkMouseInBounds() == false) {
-					currentButton.change(0);
+		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 
-					bufferStrategy.show();
-					break; //exit the loop once a button is updated, only one button can be updated at once
-				}
-			}
-			else if (clicked) {
-				currentButton.change(2);
+		for (int i = 0; i < buttonList.size(); i++)
+		{
+			int xCoord1 = buttonList.get(i).getxCoord1();
+			int xCoord2 = buttonList.get(i).getxCoord2();
+			int yCoord1 = buttonList.get(i).getyCoord1();
+			int yCoord2 = buttonList.get(i).getyCoord2();
 
-				bufferStrategy.show();
-				break;
-			}
+			String text = buttonList.get(i).getText();
+			Color buttonColor = buttonList.get(i).getColor();
+			
+			// drawing the button
+			g2d.setColor(buttonColor);
+			g2d.drawRect(xCoord1, yCoord1, xCoord2 - xCoord1, yCoord2 - yCoord1);
+			
+			// drawing the button text
+			g2d.setFont(BUTTON_FONT);
+			FontMetrics metrics = g2d.getFontMetrics(buttonList.get(i).getFont());
+			int stringWidth = metrics.stringWidth(text);
+			int stringHeight = metrics.getHeight();
+			int stringAscent = metrics.getAscent();
+			g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
+			
+			// drawing (or erasing) the selection border
+			if (i != currentButton)
+				g2d.setColor(BLACK);
+			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
 		}
 	}
-
-	public static void main(String[] args) {
-		new LightBike();
+	
+	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
+		if (direction == 0) {
+			if (currentButton != 0) {
+				currentButton--;
+			}
+		}
+		else {
+			if (currentButton !=  buttonList.size() - 1) {
+				currentButton++;
+			}
+		}
 	}
 }
