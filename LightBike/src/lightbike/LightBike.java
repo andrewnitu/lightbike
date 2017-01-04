@@ -79,7 +79,24 @@ public class LightBike extends JPanel {
 			 changeButton(1);
 		 }
 		 
+		 if (key == KeyEvent.VK_ENTER) {
+			 if (currentButton == 0) {
+				 play();
+			 }
+			 else if (currentButton == 1) {
+				 quit();
+			 }
+		 }
+		 
 		 repaint();
+	}
+	
+	private void play() {
+		
+	}
+	
+	private void quit() {
+		System.exit(0);
 	}
 
 	public void drawMainMenu(Graphics g) {
