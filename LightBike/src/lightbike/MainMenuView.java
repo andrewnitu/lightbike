@@ -13,11 +13,12 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 
 // Main class
-public class LightBike extends JPanel {
+public class MainMenuView extends JPanel {
 	public static final Color LIME_GREEN = new Color(0, 255, 0);
 	public static final Color RED = new Color(255, 0, 0);
 	public static final Color BLACK = new Color(0, 0, 0);
@@ -32,7 +33,7 @@ public class LightBike extends JPanel {
 	public static ArrayList<Button> buttonList = new ArrayList<Button>();
 	public static int currentButton = 0;
 	
-	public LightBike() {
+	public MainMenuView() {
 		initializeMenu();
 	}
 	
@@ -95,6 +96,10 @@ public class LightBike extends JPanel {
 		
 	}
 	
+	private void settings() {
+		((Application) getParent()).settings();
+	}
+	
 	private void quit() {
 		System.exit(0);
 	}
@@ -103,20 +108,20 @@ public class LightBike extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		
 		g2d.setRenderingHints(rh);
 		
+		//drawing in the background
 		g2d.setColor(BLACK);
 		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
+		//draw in the game name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
 		g2d.setFont(TITLE_FONT);
 		g2d.setColor(LIME_GREEN);
-
 		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 
+		//iterate through each button and draw it
 		for (int i = 0; i < buttonList.size(); i++)
 		{
 			int xCoord1 = buttonList.get(i).getxCoord1();
@@ -140,7 +145,7 @@ public class LightBike extends JPanel {
 			g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
 			
 			// drawing (or erasing) the selection border
-			if (i != currentButton)
+			if (i != currentButton) //if not iterating on the current button, set the drawing colour to black
 				g2d.setColor(BLACK);
 			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
 		}
