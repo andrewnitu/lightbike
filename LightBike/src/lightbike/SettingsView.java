@@ -41,7 +41,7 @@ public class SettingsView extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		drawMainMenu(g);
+		drawSettings(g);
 
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -77,7 +77,8 @@ public class SettingsView extends JPanel {
 
 	}
 	
-	public void drawMainMenu(Graphics g) {
+	// TO BE COMPLETED
+	public void drawSettings(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

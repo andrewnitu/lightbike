@@ -26,8 +26,8 @@ public class MainMenuView extends JPanel {
 	public static final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
 	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 32);
 	
-	public static ArrayList<Button> buttonList = new ArrayList<Button>();
-	public static int currentButton = 0;
+	public static ArrayList<Button> elementList = new ArrayList<Button>();
+	private int currentElement = 0;
 	
 	public MainMenuView() {
 		initializeMenu();
@@ -45,8 +45,8 @@ public class MainMenuView extends JPanel {
 		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play", BUTTON_FONT);
 		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit", BUTTON_FONT);
 
-		buttonList.add(play);
-		buttonList.add(quit);
+		elementList.add(play);
+		elementList.add(quit);
 	}
 	
 	@Override
@@ -77,10 +77,10 @@ public class MainMenuView extends JPanel {
 		 }
 		 
 		 if (key == KeyEvent.VK_ENTER) {
-			 if (currentButton == 0) {
+			 if (currentElement == 0) {
 				 play();
 			 }
-			 else if (currentButton == 1) {
+			 else if (currentElement == 1) {
 				 quit();
 			 }
 		 }
@@ -118,44 +118,26 @@ public class MainMenuView extends JPanel {
 		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 
 		//iterate through each button and draw it
-		for (int i = 0; i < buttonList.size(); i++)
+		for (int i = 0; i < elementList.size(); i++)
 		{
-			int xCoord1 = buttonList.get(i).getxCoord1();
-			int xCoord2 = buttonList.get(i).getxCoord2();
-			int yCoord1 = buttonList.get(i).getyCoord1();
-			int yCoord2 = buttonList.get(i).getyCoord2();
-
-			String text = buttonList.get(i).getText();
-			Color buttonColor = buttonList.get(i).getColor();
-			
-			// drawing the button
-			g2d.setColor(buttonColor);
-			g2d.drawRect(xCoord1, yCoord1, xCoord2 - xCoord1, yCoord2 - yCoord1);
-			
-			// drawing the button text
-			g2d.setFont(BUTTON_FONT);
-			FontMetrics metrics = g2d.getFontMetrics(buttonList.get(i).getFont());
-			int stringWidth = metrics.stringWidth(text);
-			int stringHeight = metrics.getHeight();
-			int stringAscent = metrics.getAscent();
-			g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
-			
-			// drawing (or erasing) the selection border
-			if (i != currentButton) //if not iterating on the current button, set the drawing colour to black
-				g2d.setColor(Palette.BLACK);
-			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
+			if (i == currentElement) {
+			Drawing.draw(elementList.get(i), g2d, true);
+			}
+			else {
+				Drawing.draw(elementList.get(i), g2d, false);
+			}
 		}
 	}
 	
 	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
 		if (direction == 0) {
-			if (currentButton != 0) {
-				currentButton--;
+			if (currentElement != 0) {
+				currentElement--;
 			}
 		}
 		else {
-			if (currentButton !=  buttonList.size() - 1) {
-				currentButton++;
+			if (currentElement != elementList.size() - 1) {
+				currentElement++;
 			}
 		}
 	}
