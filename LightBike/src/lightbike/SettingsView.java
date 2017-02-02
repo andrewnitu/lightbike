@@ -25,14 +25,15 @@ public class SettingsView extends JPanel {
 	public static final Font TITLE_FONT = new Font ("Helvetica", Font.BOLD, 128);
 	public static final int TITLE_RATIO = 4;
 	
-	public static int currentButton = 0;
-	
+	// Play with object descendance to consolidate into one list
 	public static ArrayList<Button> buttonList = new ArrayList<Button>();
 	public static ArrayList<IntField> intFieldList = new ArrayList<IntField>();
+	
+	private int currentButton = 0;
 	private int currentElement = 0;
 	
 	private Application application;
-
+	
 	public SettingsView() {
 		intializeSettings();
 	}
@@ -144,6 +145,7 @@ public class SettingsView extends JPanel {
 		}
 	}
 	
+	// to be called from Application.java
 	public void setApp(Application app) {
 	      this.application = app;
 	}

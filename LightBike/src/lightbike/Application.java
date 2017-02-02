@@ -7,7 +7,8 @@ import java.awt.EventQueue;
 
 @SuppressWarnings("serial")
 public class Application extends JFrame {
-
+	// Reference http://stackoverflow.com/questions/6175899/how-to-change-card-layout-panels-from-another-panel
+	
 	private CardLayout cardLayout = new CardLayout();
 	private JPanel cards = new JPanel(cardLayout);
 	
@@ -15,14 +16,13 @@ public class Application extends JFrame {
 	
 	public Application() {
 		initialize();
-		
-		
 	}
 	
 	private void initialize() {
 		MainMenuView mainMenuView = new MainMenuView();
 		SettingsView settingsView = new SettingsView();
 		
+		// Set the references to this instance so that the views can call the change methods below
 		mainMenuView.setApp(this);
 		settingsView.setApp(this);
 		

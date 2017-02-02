@@ -15,8 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
-
-// Main class
 public class MainMenuView extends JPanel {
 	public static final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
 	public static final int BUTTON_WIDTH = 300;
@@ -69,6 +67,7 @@ public class MainMenuView extends JPanel {
         }
 	}   
 	
+	// Decides what to do with the pressed key
 	public void processKeyPressed(KeyEvent event) {
 		 int key = event.getKeyCode();
 
@@ -95,12 +94,14 @@ public class MainMenuView extends JPanel {
 		 repaint();
 	}
 	
+	// swap the current card from Application.java
 	private void play() {
 		if (application != null) {
             application.swapView("Play");
          }
 	}
 	
+	// swap the current card from Application.java
 	private void settings() {
 		if (application != null) {
             application.swapView("Settings");
@@ -118,7 +119,7 @@ public class MainMenuView extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		
-		//drawing in the background
+		//fill in the background
 		g2d.setColor(Palette.BLACK);
 		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
@@ -153,6 +154,7 @@ public class MainMenuView extends JPanel {
 		}
 	}
 	
+	// to be called from Application.java
 	public void setApp(Application app) {
 	      this.application = app;
 	}
