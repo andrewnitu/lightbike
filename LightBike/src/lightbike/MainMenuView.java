@@ -26,7 +26,7 @@ public class MainMenuView extends JPanel {
 	public static final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
 	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
 	
-	public static ArrayList<Button> elementList = new ArrayList<Button>();
+	public static ArrayList<Button> buttonList = new ArrayList<Button>();
 	private int currentElement = 0;
 	
 	private Application application;
@@ -48,9 +48,9 @@ public class MainMenuView extends JPanel {
 		Button settings = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 400, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, "Settings", BUTTON_FONT);
 		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit", BUTTON_FONT);
 
-		elementList.add(play);
-		elementList.add(settings);
-		elementList.add(quit);
+		buttonList.add(play);
+		buttonList.add(settings);
+		buttonList.add(quit);
 	}
 	
 	@Override
@@ -129,13 +129,13 @@ public class MainMenuView extends JPanel {
 		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 
 		//iterate through each button and draw it
-		for (int i = 0; i < elementList.size(); i++)
+		for (int i = 0; i < buttonList.size(); i++)
 		{
 			if (i == currentElement) {
-			Drawing.draw(elementList.get(i), g2d, true);
+			Drawing.draw(buttonList.get(i), g2d, true);
 			}
 			else {
-				Drawing.draw(elementList.get(i), g2d, false);
+				Drawing.draw(buttonList.get(i), g2d, false);
 			}
 		}
 	}
@@ -147,7 +147,7 @@ public class MainMenuView extends JPanel {
 			}
 		}
 		else {
-			if (currentElement != elementList.size() - 1) {
+			if (currentElement != buttonList.size() - 1) {
 				currentElement++;
 			}
 		}

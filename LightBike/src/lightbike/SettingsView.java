@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -21,7 +22,14 @@ public class SettingsView extends JPanel {
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 32);
+	public static final Font TITLE_FONT = new Font ("Helvetica", Font.BOLD, 128);
+	public static final int TITLE_RATIO = 4;
+	
 	public static int currentButton = 0;
+	
+	public static ArrayList<Button> buttonList = new ArrayList<Button>();
+	public static ArrayList<IntField> intFieldList = new ArrayList<IntField>();
+	private int currentElement = 0;
 	
 	private Application application;
 
@@ -38,6 +46,9 @@ public class SettingsView extends JPanel {
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play", BUTTON_FONT, 2);
 		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit", BUTTON_FONT);
+		
+		intFieldList.add(players);
+		buttonList.add(back);
 	}
 
 	@Override
@@ -91,47 +102,45 @@ public class SettingsView extends JPanel {
 		//drawing in the background
 		g2d.setColor(Palette.BLACK);
 		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		//draw in the game name
+		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
+		g2d.setFont(TITLE_FONT);
+		g2d.setColor(Palette.BLUE);
+		g2d.drawString("Settings", (WINDOW_WIDTH - titleMetrics.stringWidth("Settings"))/2, WINDOW_HEIGHT/TITLE_RATIO);
 
 		//iterate through each button and draw it
-//		for (int i = 0; i < buttonList.size(); i++)
-//		{
-//			int xCoord1 = buttonList.get(i).getxCoord1();
-//			int xCoord2 = buttonList.get(i).getxCoord2();
-//			int yCoord1 = buttonList.get(i).getyCoord1();
-//			int yCoord2 = buttonList.get(i).getyCoord2();
-//
-//			String text = buttonList.get(i).getText();
-//			Color buttonColor = buttonList.get(i).getColor();
-//			
-//			// drawing the button
-//			g2d.setColor(buttonColor);
-//			g2d.drawRect(xCoord1, yCoord1, xCoord2 - xCoord1, yCoord2 - yCoord1);
-//			
-//			// drawing the button text
-//			g2d.setFont(BUTTON_FONT);
-//			FontMetrics metrics = g2d.getFontMetrics(buttonList.get(i).getFont());
-//			int stringWidth = metrics.stringWidth(text);
-//			int stringHeight = metrics.getHeight();
-//			int stringAscent = metrics.getAscent();
-//			g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
-//			
-//			// drawing (or erasing) the selection border
-//			if (i != currentButton) //if not iterating on the current button, set the drawing colour to black
-//				g2d.setColor(Palette.BLACK);
-//			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
-//		}
+		for (int i = 0; i < buttonList.size(); i++)
+		{
+			if (i == currentElement) {
+			Drawing.draw(buttonList.get(i), g2d, true);
+			}
+			else {
+				Drawing.draw(buttonList.get(i), g2d, false);
+			}
+		}
+		
+		for (int i = 0; i < intFieldList.size(); i++)
+		{
+			if (i == currentElement) {
+			Drawing.draw(intFieldList.get(i), g2d, true);
+			}
+			else {
+				Drawing.draw(intFieldList.get(i), g2d, false);
+			}
+		}
 	}
 	
 	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
 		if (direction == 0) {
-			if (currentButton != 0) {
-				currentButton--;
+			if (currentElement != 0) {
+				currentElement--;
 			}
 		}
 		else {
-//			if (currentButton != buttonList.size() - 1) {
-//				currentButton++;
-//			}
+			if (currentElement != buttonList.size() - 1) {
+				currentElement++;
+			}
 		}
 	}
 	

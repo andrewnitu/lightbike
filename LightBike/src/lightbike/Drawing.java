@@ -40,6 +40,8 @@ public class Drawing {
 		int yCoord2 = e.getyCoord2();
 
 		int value = e.getValue();
+		String valueText = value + "";
+		
 		Color buttonColor = e.getColor();
 		
 		// drawing the button
@@ -49,10 +51,10 @@ public class Drawing {
 		// drawing the button text
 		g2d.setFont(e.getFont());
 		FontMetrics metrics = g2d.getFontMetrics(e.getFont());
-		//int stringWidth = metrics.stringWidth(text);
-		//int stringHeight = metrics.getHeight();
-		//int stringAscent = metrics.getAscent();
-		//g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
+		int stringWidth = metrics.stringWidth(valueText);
+		int stringHeight = metrics.getHeight();
+		int stringAscent = metrics.getAscent();
+		g2d.drawString(valueText, xCoord1 + (xCoord2 - xCoord1 - stringWidth)/2, yCoord1 + (yCoord2 - yCoord1 - stringHeight)/2 + stringAscent);
 		
 		// drawing (or erasing) the selection border
 		if (!(drawBorder)) //if not iterating on the current button, set the drawing colour to black
