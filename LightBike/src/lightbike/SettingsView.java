@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class SettingsView extends JPanel {
 	public static final int BUTTON_WIDTH = 300;
 	public static final int BUTTON_HEIGHT = 50;

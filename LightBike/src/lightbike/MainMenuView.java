@@ -24,7 +24,7 @@ public class MainMenuView extends JPanel {
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 	public static final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
-	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 32);
+	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
 	
 	public static ArrayList<Button> elementList = new ArrayList<Button>();
 	private int currentElement = 0;
@@ -43,9 +43,11 @@ public class MainMenuView extends JPanel {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		
 		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play", BUTTON_FONT);
+		Button settings = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 400, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, "Settings", BUTTON_FONT);
 		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit", BUTTON_FONT);
 
 		elementList.add(play);
+		elementList.add(settings);
 		elementList.add(quit);
 	}
 	
@@ -81,6 +83,9 @@ public class MainMenuView extends JPanel {
 				 play();
 			 }
 			 else if (currentElement == 1) {
+				 settings();
+			 }
+			 else if (currentElement == 2) {
 				 quit();
 			 }
 		 }
