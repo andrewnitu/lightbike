@@ -29,6 +29,8 @@ public class MainMenuView extends JPanel {
 	public static ArrayList<Button> elementList = new ArrayList<Button>();
 	private int currentElement = 0;
 	
+	private Application application;
+	
 	public MainMenuView() {
 		initializeMenu();
 	}
@@ -94,11 +96,15 @@ public class MainMenuView extends JPanel {
 	}
 	
 	private void play() {
-		
+		if (application != null) {
+            application.swapView("Play");
+         }
 	}
 	
 	private void settings() {
-		((Application) getParent()).settings();
+		if (application != null) {
+            application.swapView("Settings");
+         }
 	}
 	
 	private void quit() {
@@ -145,5 +151,9 @@ public class MainMenuView extends JPanel {
 				currentElement++;
 			}
 		}
+	}
+	
+	public void setApp(Application app) {
+	      this.application = app;
 	}
 }

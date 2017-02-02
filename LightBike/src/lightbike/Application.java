@@ -1,32 +1,45 @@
 package lightbike;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 @SuppressWarnings("serial")
 public class Application extends JFrame {
+
+	private CardLayout cardLayout = new CardLayout();
+	private JPanel cards = new JPanel(cardLayout);
+	
 	private static final String WINDOW_TITLE = "LightBike";
 	
 	public Application() {
 		initialize();
 		
-		mainMenu();
+		
 	}
 	
 	private void initialize() {
+		MainMenuView mainMenuView = new MainMenuView();
+		SettingsView settingsView = new SettingsView();
+		
+		mainMenuView.setApp(this);
+		settingsView.setApp(this);
+		
+		cards.add(mainMenuView, "MainMenu");
+		cards.add(settingsView, "Settings");
+		
 		setResizable(false);
 		setTitle(WINDOW_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-	}
-	
-	public void mainMenu() {
-		add(new MainMenuView());
+		
+		add(cards);
 		pack();
 	}
 	
-	public void settings() {
-		pack();
+	public void swapView(String which) {
+		cardLayout.show(cards, which);
 	}
 	
 	public static void main(String[] args) {

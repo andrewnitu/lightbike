@@ -22,6 +22,8 @@ public class SettingsView extends JPanel {
 	public static final int WINDOW_HEIGHT = 720;
 	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 32);
 	public static int currentButton = 0;
+	
+	private Application application;
 
 	public SettingsView() {
 		intializeSettings();
@@ -131,5 +133,9 @@ public class SettingsView extends JPanel {
 //				currentButton++;
 //			}
 		}
+	}
+	
+	public void setApp(Application app) {
+	      this.application = app;
 	}
 }
