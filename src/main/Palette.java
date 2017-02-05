@@ -1,4 +1,4 @@
-package lightbike;
+package main;
 
 import java.awt.Color;
 
