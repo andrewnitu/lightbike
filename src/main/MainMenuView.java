@@ -16,15 +16,15 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class MainMenuView extends JPanel {
-	public static final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
-	public static final int BUTTON_WIDTH = 300;
-	public static final int BUTTON_HEIGHT = 50;
-	public static final int WINDOW_WIDTH = 1280;
-	public static final int WINDOW_HEIGHT = 720;
-	public static final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
-	public static final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
+	private final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
+	private final int BUTTON_WIDTH = 300;
+	private final int BUTTON_HEIGHT = 50;
+	private final int WINDOW_WIDTH = 1280;
+	private final int WINDOW_HEIGHT = 720;
+	private final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
+	private final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
 	
-	public static ArrayList<Button> buttonList = new ArrayList<Button>();
+	private ArrayList<Button> buttonList = new ArrayList<Button>();
 	private int currentElement = 0;
 	
 	private Application application;
@@ -74,12 +74,10 @@ public class MainMenuView extends JPanel {
 		 if (key == KeyEvent.VK_UP) {
 			 changeButton(0);
 		 }
-
-		 if (key == KeyEvent.VK_DOWN) {
+		 else if (key == KeyEvent.VK_DOWN) {
 			 changeButton(1);
 		 }
-		 
-		 if (key == KeyEvent.VK_ENTER) {
+		 else if (key == KeyEvent.VK_ENTER) {
 			 if (currentElement == 0) {
 				 play();
 			 }
