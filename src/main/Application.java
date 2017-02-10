@@ -11,6 +11,8 @@ public class Application extends JFrame {
 	
 	private CardLayout cardLayout = new CardLayout();
 	private JPanel cards = new JPanel(cardLayout);
+	public static final int WINDOW_WIDTH = 1280;
+	public static final int WINDOW_HEIGHT = 720;
 	
 	private static final String WINDOW_TITLE = "LightBike";
 	
