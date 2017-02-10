@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -12,17 +11,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class MainMenuView extends JPanel {
 	private final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
 	private final int BUTTON_WIDTH = 300;
 	private final int BUTTON_HEIGHT = 50;
-	private final int WINDOW_WIDTH = 1280;
-	private final int WINDOW_HEIGHT = 720;
 	private final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
 	private final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
+	
+	private final int WINDOW_WIDTH = Application.WINDOW_WIDTH;
+	private final int WINDOW_HEIGHT = Application.WINDOW_HEIGHT;
 	
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
 	private int currentElement = 0;
@@ -32,8 +31,6 @@ public class MainMenuView extends JPanel {
 	public MainMenuView() {
 		initializeMenu();
 	}
-	
-	// with help from http://zetcode.com/tutorials/javagamestutorial/movingsprites/
 	
 	private void initializeMenu() {
 		addKeyListener(new TAdapter());
@@ -92,14 +89,14 @@ public class MainMenuView extends JPanel {
 		 repaint();
 	}
 	
-	// swap the current card from Application.java
+	// swap the current card from Application.java method
 	private void play() {
 		if (application != null) {
             application.swapView("Play");
          }
 	}
 	
-	// swap the current card from Application.java
+	// swap the current card from Application.java method
 	private void settings() {
 		if (application != null) {
             application.swapView("Settings");
@@ -116,10 +113,6 @@ public class MainMenuView extends JPanel {
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
-		
-		//fill in the background
-		g2d.setColor(Palette.BLACK);
-		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
 		//draw in the game name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
