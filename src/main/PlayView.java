@@ -72,16 +72,16 @@ public class PlayView extends JPanel implements ActionListener {
 		int key = event.getKeyCode();
 
 		System.out.println("KEY PRESSED");
-		if (key == KeyEvent.VK_UP) {
+		if (key == KeyEvent.VK_UP && p1direction != Direction.DOWN) {
 			changeDirection(Direction.UP);
 		}
-		else if (key == KeyEvent.VK_RIGHT) {
+		else if (key == KeyEvent.VK_RIGHT && p1direction != Direction.LEFT) {
 			changeDirection(Direction.RIGHT);
 		}
-		else if (key == KeyEvent.VK_DOWN) {
+		else if (key == KeyEvent.VK_DOWN && p1direction != Direction.UP) {
 			changeDirection(Direction.DOWN);
 		}
-		else if (key == KeyEvent.VK_LEFT) {
+		else if (key == KeyEvent.VK_LEFT && p1direction != Direction.RIGHT) {
 			changeDirection(Direction.LEFT);
 		}
 	}
