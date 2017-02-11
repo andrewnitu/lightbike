@@ -14,95 +14,101 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class MainMenuView extends JPanel {
-	private final int TITLE_RATIO = 4; //how far down the screen the title is (height/TITLE_RATIO)
+	private final int TITLE_RATIO = 4; // how far down the screen the title is (height/TITLE_RATIO)
 	private final int BUTTON_WIDTH = 300;
 	private final int BUTTON_HEIGHT = 50;
 	private final Font TITLE_FONT = new Font("Helvetica", Font.BOLD, 128);
-	private final Font BUTTON_FONT = new Font ("Helvetica", Font.BOLD, 30);
-	
+	private final Font BUTTON_FONT = new Font("Helvetica", Font.BOLD, 30);
+
 	private final int WINDOW_WIDTH = Application.WINDOW_WIDTH;
 	private final int WINDOW_HEIGHT = Application.WINDOW_HEIGHT;
-	
+
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
 	private int currentElement = 0;
-	
+
 	private Application application;
-	
+
 	public MainMenuView() {
 		initializeMenu();
 	}
-	
+
 	private void initializeMenu() {
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		
-		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 300, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play", BUTTON_FONT);
-		Button settings = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 400, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, "Settings", BUTTON_FONT);
-		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH)/2, 500, (WINDOW_WIDTH - BUTTON_WIDTH)/2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit", BUTTON_FONT);
+
+		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play",
+				BUTTON_FONT);
+		Button settings = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 400,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, "Settings",
+				BUTTON_FONT);
+		Button quit = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit",
+				BUTTON_FONT);
 
 		buttonList.add(play);
 		buttonList.add(settings);
 		buttonList.add(quit);
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		drawMainMenu(g);
-		
+
 		Toolkit.getDefaultToolkit().sync();
 	}
-	
-	private class TAdapter extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e) {
-           processKeyPressed(e);
-        }
-	}   
-	
-	// Decides what to do with the pressed key
-	public void processKeyPressed(KeyEvent event) {
-		 int key = event.getKeyCode();
 
-		 if (key == KeyEvent.VK_UP) {
-			 changeButton(0);
-		 }
-		 else if (key == KeyEvent.VK_DOWN) {
-			 changeButton(1);
-		 }
-		 else if (key == KeyEvent.VK_ENTER) {
-			 if (currentElement == 0) {
-				 play();
-			 }
-			 else if (currentElement == 1) {
-				 settings();
-			 }
-			 else if (currentElement == 2) {
-				 quit();
-			 }
-		 }
-		 
-		 repaint();
+	private class TAdapter extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			processKeyPressed(e);
+		}
 	}
-	
-	// swap the current card from Application.java method
+
+	// decides what to do with the pressed key
+	public void processKeyPressed(KeyEvent event) {
+		int key = event.getKeyCode();
+
+		System.out.println("something pressed");
+
+		if (key == KeyEvent.VK_UP) {
+			changeButton(0);
+		}
+		else if (key == KeyEvent.VK_DOWN) {
+			changeButton(1);
+		}
+		else if (key == KeyEvent.VK_ENTER) {
+			if (currentElement == 0) {
+				play();
+			}
+			else if (currentElement == 1) {
+				settings();
+			}
+			else if (currentElement == 2) {
+				quit();
+			}
+		}
+
+		repaint();
+	}
+
 	private void play() {
 		if (application != null) {
-            application.swapView("Play");
-         }
+			application.swapGame();
+		}
 	}
-	
-	// swap the current card from Application.java method
+
 	private void settings() {
 		if (application != null) {
-            application.swapView("Settings");
-         }
+			application.swapSettings();
+		}
 	}
-	
+
 	private void quit() {
 		System.exit(0);
 	}
@@ -113,25 +119,25 @@ public class MainMenuView extends JPanel {
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
-		
-		//draw in the game name
+
+		// draw in the game name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
 		g2d.setFont(TITLE_FONT);
 		g2d.setColor(Palette.LIME_GREEN);
-		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike"))/2, WINDOW_HEIGHT/TITLE_RATIO);
+		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike")) / 2,
+				WINDOW_HEIGHT / TITLE_RATIO);
 
-		//iterate through each button and draw it
-		for (int i = 0; i < buttonList.size(); i++)
-		{
+		// iterate through each button and draw it
+		for (int i = 0; i < buttonList.size(); i++) {
 			if (i == currentElement) {
-			Drawing.draw(buttonList.get(i), g2d, true);
+				MenuDrawing.draw(buttonList.get(i), g2d, true);
 			}
 			else {
-				Drawing.draw(buttonList.get(i), g2d, false);
+				MenuDrawing.draw(buttonList.get(i), g2d, false);
 			}
 		}
 	}
-	
+
 	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
 		if (direction == 0) {
 			if (currentElement != 0) {
@@ -144,9 +150,9 @@ public class MainMenuView extends JPanel {
 			}
 		}
 	}
-	
+
 	// to be called from Application.java
 	public void setApp(Application app) {
-	      this.application = app;
+		this.application = app;
 	}
 }
