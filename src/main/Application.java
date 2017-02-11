@@ -14,6 +14,10 @@ public class Application extends JFrame {
 	public static final int WINDOW_WIDTH = 1280;
 	public static final int WINDOW_HEIGHT = 720;
 
+	MainMenuView mainMenuView;
+	SettingsView settingsView;
+	PlayView playView;
+
 	private static final String WINDOW_TITLE = "LightBike";
 
 	public Application() {
@@ -21,13 +25,14 @@ public class Application extends JFrame {
 	}
 
 	private void initialize() {
-		MainMenuView mainMenuView = new MainMenuView();
-		SettingsView settingsView = new SettingsView();
-		PlayView playView = new PlayView();
+		mainMenuView = new MainMenuView();
+		settingsView = new SettingsView();
+		playView = new PlayView();
 
 		// Set the references to this instance so that the views can call the change methods below
 		mainMenuView.setApp(this);
 		settingsView.setApp(this);
+		playView.setApp(this);
 
 		cards.add(mainMenuView, "MainMenu");
 		cards.add(settingsView, "Settings");
@@ -42,8 +47,13 @@ public class Application extends JFrame {
 		pack();
 	}
 
-	public void swapView(String which) {
-		cardLayout.show(cards, which);
+	public void swapSettings() {
+		cardLayout.show(cards, "Settings");
+	}
+
+	public void swapGame() {
+		cardLayout.show(cards, "Play");
+		playView.start();
 	}
 
 	public static void main(String[] args) {

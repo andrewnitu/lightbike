@@ -34,7 +34,6 @@ public class PlayView extends JPanel implements ActionListener {
 	private Timer gameTime;
 
 	public PlayView() {
-		initializeGame();
 	}
 
 	private class TAdapter extends KeyAdapter {
@@ -43,13 +42,18 @@ public class PlayView extends JPanel implements ActionListener {
 			processKeyPressed(e);
 		}
 	}
+	
+	public void start() {
+		initializeGame();
+		requestFocus();
+	}
 
 	private void initializeGame() {
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
-		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));		
 
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
@@ -67,8 +71,8 @@ public class PlayView extends JPanel implements ActionListener {
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 
+		System.out.println("KEY PRESSED");
 		if (key == KeyEvent.VK_UP) {
-			System.out.println("UP DETECTED");
 			changeDirection(Direction.UP);
 		}
 		else if (key == KeyEvent.VK_RIGHT) {
@@ -91,7 +95,6 @@ public class PlayView extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO: check collision with itself or other players
-
 		move();
 		repaint();
 	}
