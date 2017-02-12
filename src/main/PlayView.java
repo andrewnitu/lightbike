@@ -24,6 +24,11 @@ public class PlayView extends JPanel implements ActionListener {
 	private Direction p1direction = Direction.UP;
 	private Location p1location = new Location(640, 360);
 	private int p1offset = 0;
+	
+	private boolean p1active = true;
+	private boolean p2active = true;
+	private boolean p3active = true;
+	private boolean p4active = true;
 
 	private final int offsetThreshold = 1;
 
