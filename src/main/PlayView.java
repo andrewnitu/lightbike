@@ -23,6 +23,9 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private Direction p1direction = Direction.UP;
 	private Location p1location = new Location(640, 360);
+	private int p1offset = 0;
+
+	private final int offsetThreshold = 1;
 
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
@@ -42,7 +45,7 @@ public class PlayView extends JPanel implements ActionListener {
 			processKeyPressed(e);
 		}
 	}
-	
+
 	public void start() {
 		initializeGame();
 		requestFocus();
@@ -53,7 +56,7 @@ public class PlayView extends JPanel implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
-		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));		
+		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
@@ -71,19 +74,26 @@ public class PlayView extends JPanel implements ActionListener {
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 
-		System.out.println("KEY PRESSED");
-		if (key == KeyEvent.VK_UP && p1direction != Direction.DOWN) {
-			changeDirection(Direction.UP);
+		if (p1offset >= offsetThreshold) {
+			if (p1direction != Direction.DOWN && p1direction != Direction.UP) {
+				if (key == KeyEvent.VK_UP) {
+					changeDirection(Direction.UP);
+				}
+				else if (key == KeyEvent.VK_DOWN) {
+					changeDirection(Direction.DOWN);
+				}
+			}
+			else if (p1direction != Direction.LEFT && p1direction != Direction.RIGHT) {
+				if (key == KeyEvent.VK_RIGHT) {
+					changeDirection(Direction.RIGHT);
+				}
+				else if (key == KeyEvent.VK_LEFT) {
+					changeDirection(Direction.LEFT);
+				}
+			}
 		}
-		else if (key == KeyEvent.VK_RIGHT && p1direction != Direction.LEFT) {
-			changeDirection(Direction.RIGHT);
-		}
-		else if (key == KeyEvent.VK_DOWN && p1direction != Direction.UP) {
-			changeDirection(Direction.DOWN);
-		}
-		else if (key == KeyEvent.VK_LEFT && p1direction != Direction.RIGHT) {
-			changeDirection(Direction.LEFT);
-		}
+		
+		p1offset = 0;
 	}
 
 	public void changeDirection(Direction direction) {
@@ -100,6 +110,8 @@ public class PlayView extends JPanel implements ActionListener {
 	}
 
 	public void move() {
+		p1offset++;
+
 		if (p1direction == Direction.UP) {
 			p1location.sety(p1location.gety() - 1);
 		}
