@@ -21,16 +21,12 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private final int DELAY = 10;
 
-	private Direction p1direction = Direction.UP;
-	private Location p1location = new Location(640, 360);
 	private int p1offset = 0;
-	
-	private boolean p1active = true;
-	private boolean p2active = true;
-	private boolean p3active = true;
-	private boolean p4active = true;
 
-	private final int offsetThreshold = 1;
+	private int playerWidth = 1;
+	private final int offsetThreshold = 2 * playerWidth - 1;
+	
+	Player p1 = new Player(new Location(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), Direction.UP, Palette.LIME_GREEN, true, playerWidth);
 
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
@@ -63,6 +59,8 @@ public class PlayView extends JPanel implements ActionListener {
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
+		
+		
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
 	}
