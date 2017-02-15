@@ -23,11 +23,12 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private int p1offset = 0;
 
-	private int playerWidth = 1;
-	private final int offsetThreshold = 2 * playerWidth - 1;
-	
-	Player p1 = new Player(new Location(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), Direction.UP, Palette.LIME_GREEN, true, playerWidth);
-	
+	private int playerWidth = 15;
+	private final int offsetThreshold = playerWidth;
+
+	Player p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), Direction.UP, Palette.LIME_GREEN, true,
+			playerWidth);
+
 	private Location tempLocation;
 
 	// TODO: Initialize to 0s for readability
@@ -58,7 +59,7 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		
+
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
 	}
@@ -93,10 +94,10 @@ public class PlayView extends JPanel implements ActionListener {
 				}
 			}
 		}
-		
+
 		p1offset = 0;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO: check collision with itself or other players
@@ -106,7 +107,7 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void move() {
 		p1offset++;
-		
+
 		tempLocation = p1.getLocation();
 
 		if (p1.getDirection() == Direction.UP) {
@@ -126,7 +127,16 @@ public class PlayView extends JPanel implements ActionListener {
 			p1.setLocation(tempLocation);
 		}
 
-		gameBoard[tempLocation.getx()][tempLocation.gety()] = 1;
+		if (p1.getDirection() == Direction.UP || p1.getDirection() == Direction.DOWN) {
+			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
+				gameBoard[tempLocation.getx() + i][tempLocation.gety()] = 1;
+			}
+		}
+		else {
+			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
+				gameBoard[tempLocation.getx()][tempLocation.gety() + i] = 1;
+			}
+		}
 	}
 
 	public void updateGame(Graphics g) {
