@@ -27,11 +27,11 @@ public class PlayView extends JPanel implements ActionListener {
 	private final int offsetThreshold = 2 * playerWidth - 1;
 	
 	Player p1 = new Player(new Location(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), Direction.UP, Palette.LIME_GREEN, true, playerWidth);
+	
+	private Location tempLocation;
 
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
-
-	private Color p1color = Palette.LIME_GREEN;
 
 	private Application application;
 
@@ -58,8 +58,6 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-
-		
 		
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
@@ -78,33 +76,27 @@ public class PlayView extends JPanel implements ActionListener {
 		int key = event.getKeyCode();
 
 		if (p1offset >= offsetThreshold) {
-			if (p1direction != Direction.DOWN && p1direction != Direction.UP) {
+			if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
 				if (key == KeyEvent.VK_UP) {
-					changeDirection(Direction.UP);
+					p1.setDirection(Direction.UP);
 				}
 				else if (key == KeyEvent.VK_DOWN) {
-					changeDirection(Direction.DOWN);
+					p1.setDirection(Direction.DOWN);
 				}
 			}
-			else if (p1direction != Direction.LEFT && p1direction != Direction.RIGHT) {
+			else if (p1.getDirection() != Direction.LEFT && p1.getDirection() != Direction.RIGHT) {
 				if (key == KeyEvent.VK_RIGHT) {
-					changeDirection(Direction.RIGHT);
+					p1.setDirection(Direction.RIGHT);
 				}
 				else if (key == KeyEvent.VK_LEFT) {
-					changeDirection(Direction.LEFT);
+					p1.setDirection(Direction.LEFT);
 				}
 			}
 		}
 		
 		p1offset = 0;
 	}
-
-	public void changeDirection(Direction direction) {
-		// TODO: Make sure player doesn't go backwards
-
-		p1direction = direction;
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO: check collision with itself or other players
@@ -114,21 +106,27 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void move() {
 		p1offset++;
+		
+		tempLocation = p1.getLocation();
 
-		if (p1direction == Direction.UP) {
-			p1location.sety(p1location.gety() - 1);
+		if (p1.getDirection() == Direction.UP) {
+			tempLocation.sety(tempLocation.gety() - 1);
+			p1.setLocation(tempLocation);
 		}
-		else if (p1direction == Direction.RIGHT) {
-			p1location.setx(p1location.getx() + 1);
+		else if (p1.getDirection() == Direction.RIGHT) {
+			tempLocation.setx(tempLocation.getx() + 1);
+			p1.setLocation(tempLocation);
 		}
-		else if (p1direction == Direction.DOWN) {
-			p1location.sety(p1location.gety() + 1);
+		else if (p1.getDirection() == Direction.DOWN) {
+			tempLocation.sety(tempLocation.gety() + 1);
+			p1.setLocation(tempLocation);
 		}
-		else if (p1direction == Direction.LEFT) {
-			p1location.setx(p1location.getx() - 1);
+		else if (p1.getDirection() == Direction.LEFT) {
+			tempLocation.setx(tempLocation.getx() - 1);
+			p1.setLocation(tempLocation);
 		}
 
-		gameBoard[p1location.getx()][p1location.gety()] = 1;
+		gameBoard[tempLocation.getx()][tempLocation.gety()] = 1;
 	}
 
 	public void updateGame(Graphics g) {
@@ -144,7 +142,7 @@ public class PlayView extends JPanel implements ActionListener {
 			for (int y = 0; y < gameBoard[1].length; y++) {
 				if (gameBoard[x][y] != 0) {
 					if (gameBoard[x][y] == 1) {
-						g.setColor(p1color);
+						g.setColor(p1.getColor());
 						g.drawLine(x + 1, y + 1, x + 1, y + 1);
 					}
 				}
