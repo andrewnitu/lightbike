@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -23,8 +24,9 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private int p1offset = 0;
 
-	private int playerWidth = 15;
+	private final int playerWidth = 151;
 	private final int offsetThreshold = playerWidth;
+	private Direction p1restricted;
 
 	Player p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), Direction.UP, Palette.LIME_GREEN, true,
 			playerWidth);
@@ -33,6 +35,8 @@ public class PlayView extends JPanel implements ActionListener {
 
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
+	private ArrayList<Line> lines = new ArrayList<Line>();
+	private int lineCount = 0;
 
 	private Application application;
 
@@ -75,8 +79,9 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
+		Direction ogdir = p1.getDirection();
 
-		if (p1offset >= offsetThreshold) {
+		//if (p1offset >= offsetThreshold) {
 			if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
 				if (key == KeyEvent.VK_UP) {
 					p1.setDirection(Direction.UP);
@@ -93,8 +98,18 @@ public class PlayView extends JPanel implements ActionListener {
 					p1.setDirection(Direction.LEFT);
 				}
 			}
+		//}
+
+		if (p1.getDirection() != ogdir) {
+			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
+				for (int j = -((playerWidth - 1) / 2); j <= ((playerWidth - 1) / 2); j++) {
+					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
+				}
+				lines.add(new Line(p1.getLocation().getx() - ((playerWidth - 1) / 2), p1.getLocation().gety() + i, p1.getLocation().getx() + ((playerWidth - 1) / 2), p1.getLocation().gety() + i));
+			}
 		}
 
+		lineCount++;
 		p1offset = 0;
 	}
 
@@ -131,11 +146,13 @@ public class PlayView extends JPanel implements ActionListener {
 			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
 				gameBoard[tempLocation.getx() + i][tempLocation.gety()] = 1;
 			}
+			lines.add(new Line(p1.getLocation().getx() - ((playerWidth - 1) / 2), p1.getLocation().gety(), p1.getLocation().getx() + ((playerWidth - 1) / 2), p1.getLocation().gety()));
 		}
 		else {
 			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
 				gameBoard[tempLocation.getx()][tempLocation.gety() + i] = 1;
 			}
+			lines.add(new Line(p1.getLocation().getx(), p1.getLocation().gety() - ((playerWidth - 1) / 2), p1.getLocation().getx(), p1.getLocation().gety() + ((playerWidth - 1) / 2)));
 		}
 	}
 
@@ -148,7 +165,7 @@ public class PlayView extends JPanel implements ActionListener {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 
-		for (int x = 0; x < gameBoard.length; x++) {
+		/*for (int x = 0; x < gameBoard.length; x++) {
 			for (int y = 0; y < gameBoard[1].length; y++) {
 				if (gameBoard[x][y] != 0) {
 					if (gameBoard[x][y] == 1) {
@@ -157,6 +174,10 @@ public class PlayView extends JPanel implements ActionListener {
 					}
 				}
 			}
+		}*/
+		
+		for (int i = 0; i < lines.size(); i++) {
+			g.drawLine(lines.get(i).getx1(), lines.get(i).gety1(), lines.get(i).getx2(), lines.get(i).gety2());
 		}
 	}
 
