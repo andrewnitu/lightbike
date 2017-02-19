@@ -17,6 +17,8 @@ public class Application extends JFrame {
 	MainMenuView mainMenuView;
 	SettingsView settingsView;
 	PlayView playView;
+	
+	public static final boolean DEBUG = true;
 
 	private static final String WINDOW_TITLE = "LightBike";
 
@@ -51,7 +53,7 @@ public class Application extends JFrame {
 		cardLayout.show(cards, "Settings");
 	}
 
-	public void swapGame() {
+	public void swapPlay() {
 		cardLayout.show(cards, "Play");
 		playView.start();
 	}
