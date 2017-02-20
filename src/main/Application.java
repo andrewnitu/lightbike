@@ -18,7 +18,7 @@ public class Application extends JFrame {
 	SettingsView settingsView;
 	PlayView playView;
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	private static final String WINDOW_TITLE = "LightBike";
 

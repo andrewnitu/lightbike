@@ -10,7 +10,7 @@ public class Element {
 	public int xCoord2;
 	public int yCoord2;
 	public Color color;
-	
+
 	public int getxCoord1() {
 		return xCoord1;
 	}
@@ -18,19 +18,19 @@ public class Element {
 	public int getxCoord2() {
 		return xCoord2;
 	}
-	
+
 	public int getyCoord1() {
 		return yCoord1;
 	}
-	
+
 	public int getyCoord2() {
 		return yCoord2;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public Font getFont() {
 		return font;
 	}

@@ -68,12 +68,14 @@ public class PlayView extends JPanel implements ActionListener {
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
 		
+		// set the starting indices
 		for (int i = -oneSide; i <= oneSide; i++) {
 			for (int j = -oneSide; j <= oneSide; j++) {
 				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
 			}
 		}
 		
+		// create the starting block for the player
 		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
 						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide * 2));
 	}
@@ -110,6 +112,8 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		//}
 
+		// executed when player changes direction
+		// convert individual lines to a big rectangle, change the player position, and update the corner indices
 		if (p1.getDirection() != currentDirection) {
 			if (currentDirection == Direction.UP) {
 				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
@@ -163,14 +167,13 @@ public class PlayView extends JPanel implements ActionListener {
 		// TODO: check collision with itself or other players
 		move();
 		repaint();
-		
 	}
 	
 	public void checkCollision(Location loc, Direction dir) {
 		if (dir == Direction.UP || dir == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[loc.getx() + i][tempLocation.gety()] != 0) {
-					System.out.println("Collision vertical!");
+					if (Application.DEBUG) System.out.println("Collision vertical!");
 					break;
 				}
 			}
@@ -178,7 +181,7 @@ public class PlayView extends JPanel implements ActionListener {
 		else {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[loc.getx()][loc.gety() + i] != 0) {
-					System.out.println("Collision horizontal!");
+					if (Application.DEBUG) System.out.println("Collision horizontal!");
 					break;
 				}
 			}

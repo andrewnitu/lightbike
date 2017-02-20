@@ -3,7 +3,7 @@ package main;
 import java.awt.Color;
 
 public class Player {
-	Location location;
+	Location location; // represents the center of the player's current position, not where the leading edge is drawn
 	Direction direction;
 	Color color;
 	boolean alive;

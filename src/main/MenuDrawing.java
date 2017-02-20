@@ -34,7 +34,7 @@ public class MenuDrawing {
 		g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
 	}
 
-	// TO BE COMPLETED, HOW DO WE DRAW A INTEGER FIELD?
+	// TODO: Complete method, how do we draw an integer field?
 	public static void draw(IntField e, Graphics2D g2d, boolean drawBorder) {
 		int xCoord1 = e.getxCoord1();
 		int xCoord2 = e.getxCoord2();

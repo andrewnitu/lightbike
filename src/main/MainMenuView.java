@@ -74,7 +74,7 @@ public class MainMenuView extends JPanel {
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
 
-		System.out.println("something pressed");
+		if (Application.DEBUG) System.out.println("Key pressed in MainMenuView.java");
 
 		if (key == KeyEvent.VK_UP) {
 			changeButton(0);
@@ -99,7 +99,7 @@ public class MainMenuView extends JPanel {
 
 	private void play() {
 		if (application != null) {
-			application.swapGame();
+			application.swapPlay();
 		}
 	}
 

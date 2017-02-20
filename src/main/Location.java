@@ -1,5 +1,7 @@
 package main;
 
+// Lesser x -> left
+// Lesser y -> up
 public class Location {
 	private int locationx;
 	private int locationy;
