@@ -23,7 +23,7 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private int p1offset = 0;
 
-	private final int playerWidth = 151;
+	private final int playerWidth = 5;
 	private final int oneSide = ((playerWidth - 1) / 2);
 	
 	private final int offsetThreshold = playerWidth;
@@ -163,11 +163,31 @@ public class PlayView extends JPanel implements ActionListener {
 		// TODO: check collision with itself or other players
 		move();
 		repaint();
+		
+	}
+	
+	public void checkCollision(Location loc, Direction dir) {
+		if (dir == Direction.UP || dir == Direction.DOWN) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				if (gameBoard[loc.getx() + i][tempLocation.gety()] != 0) {
+					System.out.println("Collision vertical!");
+					break;
+				}
+			}
+		}
+		else {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				if (gameBoard[loc.getx()][loc.gety() + i] != 0) {
+					System.out.println("Collision horizontal!");
+					break;
+				}
+			}
+		}
 	}
 
 	public void move() {
 		p1offset++;
-
+		
 		tempLocation = p1.getLocation();
 
 		if (p1.getDirection() == Direction.UP) {
@@ -184,6 +204,7 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		p1.setLocation(tempLocation); // location is moved by one pixel in some direction
 		
+		checkCollision(p1.getLocation(), p1.getDirection());
 
 		if (p1.getDirection() == Direction.UP || p1.getDirection() == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
