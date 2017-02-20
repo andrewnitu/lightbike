@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,10 +24,11 @@ public class PlayView extends JPanel implements ActionListener {
 	private int p1offset = 0;
 
 	private final int playerWidth = 151;
+	private final int oneSide = ((playerWidth - 1) / 2);
+	
 	private final int offsetThreshold = playerWidth;
-	private Direction p1restricted;
 
-	Player p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), Direction.UP, Palette.LIME_GREEN, true,
+	Player p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.LIME_GREEN, true,
 			playerWidth);
 
 	private Location tempLocation;
@@ -36,7 +36,8 @@ public class PlayView extends JPanel implements ActionListener {
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
 	private ArrayList<Line> lines = new ArrayList<Line>();
-	private int lineCount = 0;
+	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+	private int currentLineCount = 0;
 
 	private Application application;
 
@@ -66,6 +67,15 @@ public class PlayView extends JPanel implements ActionListener {
 
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
+		
+		for (int i = -oneSide; i <= oneSide; i++) {
+			for (int j = -oneSide; j <= oneSide; j++) {
+				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
+			}
+		}
+		
+		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide * 2));
 	}
 
 	@Override
@@ -79,37 +89,72 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
-		Direction ogdir = p1.getDirection();
+		Direction currentDirection = p1.getDirection();
 
 		//if (p1offset >= offsetThreshold) {
-			if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
-				if (key == KeyEvent.VK_UP) {
-					p1.setDirection(Direction.UP);
-				}
-				else if (key == KeyEvent.VK_DOWN) {
-					p1.setDirection(Direction.DOWN);
-				}
+		if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
+			if (key == KeyEvent.VK_UP) {
+				p1.setDirection(Direction.UP);
 			}
-			else if (p1.getDirection() != Direction.LEFT && p1.getDirection() != Direction.RIGHT) {
-				if (key == KeyEvent.VK_RIGHT) {
-					p1.setDirection(Direction.RIGHT);
-				}
-				else if (key == KeyEvent.VK_LEFT) {
-					p1.setDirection(Direction.LEFT);
-				}
-			}
-		//}
-
-		if (p1.getDirection() != ogdir) {
-			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
-				for (int j = -((playerWidth - 1) / 2); j <= ((playerWidth - 1) / 2); j++) {
-					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
-				}
-				lines.add(new Line(p1.getLocation().getx() - ((playerWidth - 1) / 2), p1.getLocation().gety() + i, p1.getLocation().getx() + ((playerWidth - 1) / 2), p1.getLocation().gety() + i));
+			else if (key == KeyEvent.VK_DOWN) {
+				p1.setDirection(Direction.DOWN);
 			}
 		}
+		else if (p1.getDirection() != Direction.LEFT && p1.getDirection() != Direction.RIGHT) {
+			if (key == KeyEvent.VK_RIGHT) {
+				p1.setDirection(Direction.RIGHT);
+			}
+			else if (key == KeyEvent.VK_LEFT) {
+				p1.setDirection(Direction.LEFT);
+			}
+		}
+		//}
 
-		lineCount++;
+		if (p1.getDirection() != currentDirection) {
+			if (currentDirection == Direction.UP) {
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + currentLineCount));
+				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
+			}
+			else if (currentDirection == Direction.RIGHT) {
+				rectangles.add(new Rectangle(p1.getLocation().getx() - currentLineCount, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
+				p1.setLocation(new Location(p1.getLocation().getx() - oneSide, p1.getLocation().gety()));
+			}
+			else if (currentDirection == Direction.DOWN) {
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - currentLineCount,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
+				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() - oneSide));
+			}
+			else if (currentDirection == Direction.LEFT) {
+				rectangles.add(new Rectangle(p1.getLocation().getx(), p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() + currentLineCount, p1.getLocation().gety() + oneSide));
+				p1.setLocation(new Location(p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
+			}
+			
+			for (int i = -oneSide; i <= oneSide; i++) {
+				for (int j = -oneSide; j <= oneSide; j++) {
+					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
+				}
+			}
+			
+			if (p1.getDirection() == Direction.UP) {
+				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() - oneSide));
+			}
+			else if (p1.getDirection() == Direction.RIGHT) {
+				p1.setLocation(new Location(p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
+			}
+			else if (p1.getDirection() == Direction.DOWN) {
+				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
+			}
+			else if (p1.getDirection() == Direction.LEFT) {
+				p1.setLocation(new Location(p1.getLocation().getx() - oneSide, p1.getLocation().gety()));
+			}
+
+			lines.clear();
+			currentLineCount = 0;
+		}
+
 		p1offset = 0;
 	}
 
@@ -127,57 +172,61 @@ public class PlayView extends JPanel implements ActionListener {
 
 		if (p1.getDirection() == Direction.UP) {
 			tempLocation.sety(tempLocation.gety() - 1);
-			p1.setLocation(tempLocation);
 		}
 		else if (p1.getDirection() == Direction.RIGHT) {
 			tempLocation.setx(tempLocation.getx() + 1);
-			p1.setLocation(tempLocation);
 		}
 		else if (p1.getDirection() == Direction.DOWN) {
 			tempLocation.sety(tempLocation.gety() + 1);
-			p1.setLocation(tempLocation);
 		}
 		else if (p1.getDirection() == Direction.LEFT) {
 			tempLocation.setx(tempLocation.getx() - 1);
-			p1.setLocation(tempLocation);
 		}
+		p1.setLocation(tempLocation); // location is moved by one pixel in some direction
+		
 
 		if (p1.getDirection() == Direction.UP || p1.getDirection() == Direction.DOWN) {
-			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
+			for (int i = -oneSide; i <= oneSide; i++) {
 				gameBoard[tempLocation.getx() + i][tempLocation.gety()] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx() - ((playerWidth - 1) / 2), p1.getLocation().gety(), p1.getLocation().getx() + ((playerWidth - 1) / 2), p1.getLocation().gety()));
+			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
+					p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
 		}
 		else {
-			for (int i = -((playerWidth - 1) / 2); i <= ((playerWidth - 1) / 2); i++) {
+			for (int i = -oneSide; i <= oneSide; i++) {
 				gameBoard[tempLocation.getx()][tempLocation.gety() + i] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx(), p1.getLocation().gety() - ((playerWidth - 1) / 2), p1.getLocation().getx(), p1.getLocation().gety() + ((playerWidth - 1) / 2)));
+			lines.add(new Line(p1.getLocation().getx(), p1.getLocation().gety() - oneSide, p1.getLocation().getx(),
+					p1.getLocation().gety() + oneSide));
 		}
+		currentLineCount++;
 	}
 
 	public void updateGame(Graphics g) {
-		// TODO: Implement drawing here
-
 		Graphics2D g2d = (Graphics2D) g;
 
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 
-		/*for (int x = 0; x < gameBoard.length; x++) {
-			for (int y = 0; y < gameBoard[1].length; y++) {
-				if (gameBoard[x][y] != 0) {
-					if (gameBoard[x][y] == 1) {
-						g.setColor(p1.getColor());
-						g.drawLine(x + 1, y + 1, x + 1, y + 1);
-					}
-				}
-			}
-		}*/
-		
+		g.setColor(p1.getColor());
+
+		// draw all the lines
 		for (int i = 0; i < lines.size(); i++) {
 			g.drawLine(lines.get(i).getx1(), lines.get(i).gety1(), lines.get(i).getx2(), lines.get(i).gety2());
+		}
+
+		// draw all the rectangles
+		for (int i = 0; i < rectangles.size(); i++) {
+			g.fillRect(rectangles.get(i).getx1(), rectangles.get(i).gety1(),
+					rectangles.get(i).getx2() + 1 - rectangles.get(i).getx1(),
+					rectangles.get(i).gety2() + 1 - rectangles.get(i).gety1());
+		}
+
+		if (Application.DEBUG) {
+			g.setColor(Palette.RED);
+			g.drawLine(p1.getLocation().getx(), p1.getLocation().gety(), p1.getLocation().getx(),
+					p1.getLocation().gety());
 		}
 	}
 
