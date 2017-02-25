@@ -51,11 +51,17 @@ public class Application extends JFrame {
 
 	public void swapSettings() {
 		cardLayout.show(cards, "Settings");
+		settingsView.start();
 	}
 
 	public void swapPlay() {
 		cardLayout.show(cards, "Play");
 		playView.start();
+	}
+	
+	public void swapGameOver() {
+		cardLayout.show(cards, "GameOver");
+		gameOverView.start();
 	}
 
 	public static void main(String[] args) {
