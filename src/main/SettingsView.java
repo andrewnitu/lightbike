@@ -33,6 +33,10 @@ public class SettingsView extends JPanel {
 	private Application application;
 
 	public SettingsView() {
+		
+	}
+	
+	public void start() {
 		intializeSettings();
 	}
 
