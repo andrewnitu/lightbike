@@ -40,7 +40,7 @@ public class MainMenuView extends JPanel {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 		Button play = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play",
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.WHITE, "Play",
 				BUTTON_FONT);
 		Button settings = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 400,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, "Settings",
