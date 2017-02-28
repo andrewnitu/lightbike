@@ -31,6 +31,10 @@ public class MainMenuView extends JPanel {
 	public MainMenuView() {
 		initializeMenu();
 	}
+	
+	public void start() {
+		initializeMenu();
+	}
 
 	private void initializeMenu() {
 		addKeyListener(new TAdapter());

@@ -17,6 +17,7 @@ public class Application extends JFrame {
 	MainMenuView mainMenuView;
 	SettingsView settingsView;
 	PlayView playView;
+	GameOverView gameOverView;
 	
 	public static final boolean DEBUG = false;
 
@@ -30,11 +31,13 @@ public class Application extends JFrame {
 		mainMenuView = new MainMenuView();
 		settingsView = new SettingsView();
 		playView = new PlayView();
+		gameOverView = new GameOverView();
 
 		// Set the references to this instance so that the views can call the change methods below
 		mainMenuView.setApp(this);
 		settingsView.setApp(this);
 		playView.setApp(this);
+		gameOverView.setApp(this);
 
 		cards.add(mainMenuView, "MainMenu");
 		cards.add(settingsView, "Settings");
@@ -47,6 +50,11 @@ public class Application extends JFrame {
 
 		add(cards);
 		pack();
+	}
+	
+	public void swapMainMenu() {
+		cardLayout.show(cards, "MainMenu");
+		mainMenuView.start();
 	}
 
 	public void swapSettings() {
