@@ -18,4 +18,8 @@ public class IntField extends Element {
 	public int getValue() {
 		return value;
 	}
+	
+	public void setValue(int newValue) {
+		value = newValue;
+	}
 }
