@@ -84,6 +84,14 @@ public class SettingsView extends JPanel {
 		if (key == KeyEvent.VK_DOWN) {
 			changeButton(1);
 		}
+		
+		if (key == KeyEvent.VK_RIGHT) {
+			changeValue(1);
+		}
+		
+		if (key == KeyEvent.VK_LEFT) {
+			changeValue(-1);
+		}
 
 		if (key == KeyEvent.VK_ENTER) {
 			if (currentElement == 0) {
@@ -96,6 +104,12 @@ public class SettingsView extends JPanel {
 
 	private void back() {
 
+	}
+	
+	private void changeValue(int num) {
+		if (elementList.get(currentElement) instanceof IntField) {
+			((IntField) elementList.get(currentElement)).setValue(((IntField) elementList.get(currentElement)).getValue() + num);
+		}
 	}
 
 	// TO BE COMPLETED
