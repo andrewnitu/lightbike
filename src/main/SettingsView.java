@@ -25,19 +25,19 @@ public class SettingsView extends JPanel {
 	public static final int TITLE_RATIO = 4;
 
 	// Play with object descendance to consolidate into one list
-	public static ArrayList<Button> buttonList = new ArrayList<Button>();
-	public static ArrayList<IntField> intFieldList = new ArrayList<IntField>();
+	public static ArrayList<Element> elementList = new ArrayList<Element>();
 
 	private int currentElement = 0;
 
 	private Application application;
 
 	public SettingsView() {
-		
+
 	}
-	
+
 	public void start() {
 		intializeSettings();
+		requestFocus();
 	}
 
 	private void intializeSettings() {
@@ -54,8 +54,8 @@ public class SettingsView extends JPanel {
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit",
 				BUTTON_FONT);
 
-		intFieldList.add(players);
-		buttonList.add(back);
+		elementList.add(players);
+		elementList.add(back);
 	}
 
 	@Override
@@ -118,21 +118,22 @@ public class SettingsView extends JPanel {
 				WINDOW_HEIGHT / TITLE_RATIO);
 
 		// iterate through each button and draw it
-		for (int i = 0; i < buttonList.size(); i++) {
-			if (i == currentElement) {
-				MenuDrawing.draw(buttonList.get(i), g2d, true);
+		for (int i = 0; i < elementList.size(); i++) {
+			if (elementList.get(i) instanceof Button) {
+				if (i == currentElement) {
+					MenuDrawing.draw((Button) elementList.get(i), g2d, true);
+				}
+				else {
+					MenuDrawing.draw((Button) elementList.get(i), g2d, false);
+				}
 			}
-			else {
-				MenuDrawing.draw(buttonList.get(i), g2d, false);
-			}
-		}
-
-		for (int i = 0; i < intFieldList.size(); i++) {
-			if (i == currentElement) {
-				MenuDrawing.draw(intFieldList.get(i), g2d, true);
-			}
-			else {
-				MenuDrawing.draw(intFieldList.get(i), g2d, false);
+			else if (elementList.get(i) instanceof IntField) {
+				if (i == currentElement) {
+					MenuDrawing.draw((IntField) elementList.get(i), g2d, true);
+				}
+				else {
+					MenuDrawing.draw((IntField) elementList.get(i), g2d, false);
+				}
 			}
 		}
 	}
@@ -140,11 +141,13 @@ public class SettingsView extends JPanel {
 	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
 		if (direction == 0) {
 			if (currentElement != 0) {
+				if (Application.DEBUG) System.out.println("currentElement-- in SettingsView");
 				currentElement--;
 			}
 		}
 		else {
-			if (currentElement != buttonList.size() - 1) {
+			if (currentElement != elementList.size() - 1) {
+				if (Application.DEBUG) System.out.println("currentElement-- in SettingsView");
 				currentElement++;
 			}
 		}

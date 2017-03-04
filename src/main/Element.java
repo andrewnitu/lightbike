@@ -3,7 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 
-public class Element {
+public abstract class Element {
 	public Font font;
 	public int xCoord1;
 	public int yCoord1;
