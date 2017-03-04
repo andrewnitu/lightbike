@@ -59,7 +59,7 @@ public class MenuDrawing {
 				yCoord1 + (yCoord2 - yCoord1 - stringHeight) / 2 + stringAscent);
 
 		// drawing (or erasing) the selection border
-		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black		}
+		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
 			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
 		}
 	}

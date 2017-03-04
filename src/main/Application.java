@@ -19,7 +19,7 @@ public class Application extends JFrame {
 	PlayView playView;
 	GameOverView gameOverView;
 	
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	private static final String WINDOW_TITLE = "LightBike";
 
@@ -32,7 +32,7 @@ public class Application extends JFrame {
 		settingsView = new SettingsView();
 		playView = new PlayView();
 		gameOverView = new GameOverView();
-
+		
 		// Set the references to this instance so that the views can call the change methods below
 		mainMenuView.setApp(this);
 		settingsView.setApp(this);
@@ -42,6 +42,12 @@ public class Application extends JFrame {
 		cards.add(mainMenuView, "MainMenu");
 		cards.add(settingsView, "Settings");
 		cards.add(playView, "Play");
+		cards.add(gameOverView, "GameOverView");
+		
+		mainMenuView.start();
+		settingsView.start();
+		playView.start();
+		gameOverView.start();
 
 		setResizable(false);
 		setTitle(WINDOW_TITLE);
@@ -54,22 +60,22 @@ public class Application extends JFrame {
 	
 	public void swapMainMenu() {
 		cardLayout.show(cards, "MainMenu");
-		mainMenuView.start();
+		mainMenuView.resume();
 	}
 
 	public void swapSettings() {
 		cardLayout.show(cards, "Settings");
-		settingsView.start();
+		settingsView.resume();
 	}
 
 	public void swapPlay() {
 		cardLayout.show(cards, "Play");
-		playView.start();
+		playView.resume();
 	}
 	
 	public void swapGameOver() {
 		cardLayout.show(cards, "GameOver");
-		gameOverView.start();
+		//gameOverView.resume();
 	}
 
 	public static void main(String[] args) {

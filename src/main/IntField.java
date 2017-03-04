@@ -13,6 +13,7 @@ public class IntField extends Element {
 		yCoord2 = y2;
 		color = fldColor;
 		font = fldFont;
+		value = fldValue;
 	}
 
 	public int getValue() {

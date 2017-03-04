@@ -28,6 +28,9 @@ public class SettingsView extends JPanel {
 	public static ArrayList<Element> elementList = new ArrayList<Element>();
 
 	private int currentElement = 0;
+	
+	private int currentIntFieldValue = 0; // used with set/get methods of IntField
+	private int newIntFieldValue = 0;
 
 	private Application application;
 
@@ -37,6 +40,10 @@ public class SettingsView extends JPanel {
 
 	public void start() {
 		intializeSettings();
+		resume();
+	}
+	
+	public void resume() {
 		requestFocus();
 	}
 
@@ -49,9 +56,9 @@ public class SettingsView extends JPanel {
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play",
-				BUTTON_FONT, 2);
+				BUTTON_FONT, 1);
 		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Quit",
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Back",
 				BUTTON_FONT);
 
 		elementList.add(players);
@@ -94,21 +101,27 @@ public class SettingsView extends JPanel {
 		}
 
 		if (key == KeyEvent.VK_ENTER) {
-			if (currentElement == 0) {
-				// play();
+			if (currentElement == 1) {
+				backToMainMenu();
 			}
 		}
 
 		repaint();
 	}
 
-	private void back() {
-
+	private void backToMainMenu() {
+		if (application != null) {
+			application.swapMainMenu();
+		}
 	}
 	
 	private void changeValue(int num) {
-		if (elementList.get(currentElement) instanceof IntField) {
-			((IntField) elementList.get(currentElement)).setValue(((IntField) elementList.get(currentElement)).getValue() + num);
+		if (elementList.get(currentElement) instanceof IntField && currentElement == 0) {
+			currentIntFieldValue = ((IntField) elementList.get(currentElement)).getValue();
+			if ((currentIntFieldValue > 1 && num == -1) || (currentIntFieldValue < 4 && num == 1)) {
+				newIntFieldValue = currentIntFieldValue + num;
+				((IntField) elementList.get(currentElement)).setValue(newIntFieldValue);
+			}
 		}
 	}
 
@@ -161,7 +174,7 @@ public class SettingsView extends JPanel {
 		}
 		else {
 			if (currentElement != elementList.size() - 1) {
-				if (Application.DEBUG) System.out.println("currentElement-- in SettingsView");
+				if (Application.DEBUG) System.out.println("currentElement++ in SettingsView");
 				currentElement++;
 			}
 		}

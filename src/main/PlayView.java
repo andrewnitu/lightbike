@@ -55,7 +55,13 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void start() {
 		initializeGame();
+	}
+	
+	public void resume() {
 		requestFocus();
+		
+		gameTime = new Timer(DELAY, this);
+		gameTime.start();
 	}
 
 	private void initializeGame() {
@@ -64,9 +70,6 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-
-		gameTime = new Timer(DELAY, this);
-		gameTime.start();
 		
 		// set the starting indices
 		for (int i = -oneSide; i <= oneSide; i++) {

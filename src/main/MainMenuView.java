@@ -29,11 +29,16 @@ public class MainMenuView extends JPanel {
 	private Application application;
 
 	public MainMenuView() {
-		initializeMenu();
 	}
 	
 	public void start() {
 		initializeMenu();
+		resume();
+	}
+	
+	public void resume() {
+		requestFocus();
+		//currentElement = 0; // Reset which element is selected, if desired
 	}
 
 	private void initializeMenu() {
