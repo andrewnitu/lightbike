@@ -28,7 +28,7 @@ public class SettingsView extends JPanel {
 	public static ArrayList<Element> elementList = new ArrayList<Element>();
 
 	private int currentElement = 0;
-	
+
 	private int currentIntFieldValue = 0; // used with set/get methods of IntField
 	private int newIntFieldValue = 0;
 
@@ -42,7 +42,7 @@ public class SettingsView extends JPanel {
 		intializeSettings();
 		resume();
 	}
-	
+
 	public void resume() {
 		requestFocus();
 	}
@@ -56,7 +56,7 @@ public class SettingsView extends JPanel {
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play",
-				BUTTON_FONT, 1);
+				BUTTON_FONT, 1, 1, 4);
 		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Back",
 				BUTTON_FONT);
@@ -91,17 +91,19 @@ public class SettingsView extends JPanel {
 		if (key == KeyEvent.VK_DOWN) {
 			changeButton(1);
 		}
-		
-		if (key == KeyEvent.VK_RIGHT) {
-			changeValue(1);
-		}
-		
-		if (key == KeyEvent.VK_LEFT) {
-			changeValue(-1);
+
+		if (currentElement == 0) {
+			if (key == KeyEvent.VK_RIGHT) {
+				changeValue(1);
+			}
+
+			if (key == KeyEvent.VK_LEFT) {
+				changeValue(-1);
+			}
 		}
 
-		if (key == KeyEvent.VK_ENTER) {
-			if (currentElement == 1) {
+		if (currentElement == 1) {
+			if (key == KeyEvent.VK_ENTER) {
 				backToMainMenu();
 			}
 		}
@@ -114,14 +116,10 @@ public class SettingsView extends JPanel {
 			application.swapMainMenu();
 		}
 	}
-	
+
 	private void changeValue(int num) {
-		if (elementList.get(currentElement) instanceof IntField && currentElement == 0) {
-			currentIntFieldValue = ((IntField) elementList.get(currentElement)).getValue();
-			if ((currentIntFieldValue > 1 && num == -1) || (currentIntFieldValue < 4 && num == 1)) {
-				newIntFieldValue = currentIntFieldValue + num;
-				((IntField) elementList.get(currentElement)).setValue(newIntFieldValue);
-			}
+		if (elementList.get(currentElement) instanceof IntField) {
+			((IntField) elementList.get(currentElement)).changeValue(num);
 		}
 	}
 
@@ -168,13 +166,15 @@ public class SettingsView extends JPanel {
 	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
 		if (direction == 0) {
 			if (currentElement != 0) {
-				if (Application.DEBUG) System.out.println("currentElement-- in SettingsView");
+				if (Application.DEBUG)
+					System.out.println("currentElement-- in SettingsView");
 				currentElement--;
 			}
 		}
 		else {
 			if (currentElement != elementList.size() - 1) {
-				if (Application.DEBUG) System.out.println("currentElement++ in SettingsView");
+				if (Application.DEBUG)
+					System.out.println("currentElement++ in SettingsView");
 				currentElement++;
 			}
 		}
