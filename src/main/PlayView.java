@@ -55,6 +55,7 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void start() {
 		initializeGame();
+		requestFocus();
 	}
 	
 	public void resume() {
@@ -62,6 +63,10 @@ public class PlayView extends JPanel implements ActionListener {
 		
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
+	}
+	
+	public void stop() {
+		gameTime.stop();
 	}
 
 	private void initializeGame() {
@@ -73,7 +78,7 @@ public class PlayView extends JPanel implements ActionListener {
 		
 		// set the starting indices
 		for (int i = -oneSide; i <= oneSide; i++) {
-			for (int j = -oneSide; j <= oneSide; j++) {
+			for (int j = 0; j <= oneSide * 2; j++) {
 				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
 			}
 		}
@@ -81,6 +86,9 @@ public class PlayView extends JPanel implements ActionListener {
 		// create the starting block for the player
 		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
 						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide * 2));
+		
+		gameTime = new Timer(DELAY, this);
+		gameTime.start();
 	}
 
 	@Override
@@ -96,7 +104,6 @@ public class PlayView extends JPanel implements ActionListener {
 		int key = event.getKeyCode();
 		Direction currentDirection = p1.getDirection();
 
-		//if (p1offset >= offsetThreshold) {
 		if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
 			if (key == KeyEvent.VK_UP) {
 				p1.setDirection(Direction.UP);
@@ -113,7 +120,6 @@ public class PlayView extends JPanel implements ActionListener {
 				p1.setDirection(Direction.LEFT);
 			}
 		}
-		//}
 
 		// executed when player changes direction
 		// convert individual lines to a big rectangle, change the player position, and update the corner indices
@@ -172,12 +178,12 @@ public class PlayView extends JPanel implements ActionListener {
 		repaint();
 	}
 	
-	public void checkCollision(Location loc, Direction dir) {
+	public boolean checkCollision(Location loc, Direction dir) {
 		if (dir == Direction.UP || dir == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[loc.getx() + i][tempLocation.gety()] != 0) {
 					if (Application.DEBUG) System.out.println("Collision vertical!");
-					break;
+					return true;
 				}
 			}
 		}
@@ -185,10 +191,18 @@ public class PlayView extends JPanel implements ActionListener {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[loc.getx()][loc.gety() + i] != 0) {
 					if (Application.DEBUG) System.out.println("Collision horizontal!");
-					break;
+					return true;
 				}
 			}
 		}
+		return false;
+	}
+	
+	public boolean checkOutOfBounds(Location loc) {
+		if (loc.getx() < 1 || loc.getx() >= WINDOW_WIDTH - 1 || loc.gety() < 1 || loc.gety() >= WINDOW_HEIGHT - 1) {
+			return true;
+		}
+		return false;
 	}
 
 	public void move() {
@@ -209,8 +223,11 @@ public class PlayView extends JPanel implements ActionListener {
 			tempLocation.setx(tempLocation.getx() - 1);
 		}
 		p1.setLocation(tempLocation); // location is moved by one pixel in some direction
-		
-		checkCollision(p1.getLocation(), p1.getDirection());
+
+		if (checkCollision(p1.getLocation(), p1.getDirection()) || checkOutOfBounds(p1.getLocation())) {
+			application.swapGameOver();
+			stop();
+		}
 
 		if (p1.getDirection() == Direction.UP || p1.getDirection() == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
