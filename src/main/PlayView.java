@@ -23,7 +23,7 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private int p1offset = 0;
 
-	private final int playerWidth = 5;
+	private final int playerWidth = 33;
 	private final int oneSide = ((playerWidth - 1) / 2);
 	
 	private final int offsetThreshold = playerWidth;
@@ -78,14 +78,14 @@ public class PlayView extends JPanel implements ActionListener {
 		
 		// set the starting indices
 		for (int i = -oneSide; i <= oneSide; i++) {
-			for (int j = 0; j <= oneSide * 2; j++) {
+			for (int j = -oneSide; j <= oneSide; j++) {
 				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
 			}
 		}
 		
 		// create the starting block for the player
-		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide * 2));
+		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 		
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
@@ -125,43 +125,26 @@ public class PlayView extends JPanel implements ActionListener {
 		// convert individual lines to a big rectangle, change the player position, and update the corner indices
 		if (p1.getDirection() != currentDirection) {
 			if (currentDirection == Direction.UP) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + currentLineCount));
-				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide + currentLineCount));
 			}
 			else if (currentDirection == Direction.RIGHT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - currentLineCount, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
-				p1.setLocation(new Location(p1.getLocation().getx() - oneSide, p1.getLocation().gety()));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide - currentLineCount, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide));
 			}
 			else if (currentDirection == Direction.DOWN) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - currentLineCount,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
-				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() - oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide - currentLineCount,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide));
 			}
 			else if (currentDirection == Direction.LEFT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx(), p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() + currentLineCount, p1.getLocation().gety() + oneSide));
-				p1.setLocation(new Location(p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() - oneSide + currentLineCount, p1.getLocation().gety() + oneSide));
 			}
 			
 			for (int i = -oneSide; i <= oneSide; i++) {
 				for (int j = -oneSide; j <= oneSide; j++) {
 					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
 				}
-			}
-			
-			if (p1.getDirection() == Direction.UP) {
-				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() - oneSide));
-			}
-			else if (p1.getDirection() == Direction.RIGHT) {
-				p1.setLocation(new Location(p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
-			}
-			else if (p1.getDirection() == Direction.DOWN) {
-				p1.setLocation(new Location(p1.getLocation().getx(), p1.getLocation().gety() + oneSide));
-			}
-			else if (p1.getDirection() == Direction.LEFT) {
-				p1.setLocation(new Location(p1.getLocation().getx() - oneSide, p1.getLocation().gety()));
 			}
 
 			lines.clear();
@@ -178,19 +161,35 @@ public class PlayView extends JPanel implements ActionListener {
 		repaint();
 	}
 	
-	public boolean checkCollision(Location loc, Direction dir) {
-		if (dir == Direction.UP || dir == Direction.DOWN) {
+	public boolean checkCollision(Location playerLoc, Direction dir) {
+		if (dir == Direction.UP) {
 			for (int i = -oneSide; i <= oneSide; i++) {
-				if (gameBoard[loc.getx() + i][tempLocation.gety()] != 0) {
-					if (Application.DEBUG) System.out.println("Collision vertical!");
+				if (gameBoard[playerLoc.getx() + i][tempLocation.gety() - oneSide] != 0) {
+					if (Application.DEBUG) System.out.println("Collision dir up!");
 					return true;
 				}
 			}
 		}
-		else {
+		else if (dir == Direction.RIGHT) {
 			for (int i = -oneSide; i <= oneSide; i++) {
-				if (gameBoard[loc.getx()][loc.gety() + i] != 0) {
-					if (Application.DEBUG) System.out.println("Collision horizontal!");
+				if (gameBoard[playerLoc.getx() + oneSide][playerLoc.gety() + i] != 0) {
+					if (Application.DEBUG) System.out.println("Collision dir right!");
+					return true;
+				}
+			}
+		}
+		else if (dir == Direction.DOWN) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				if (gameBoard[playerLoc.getx() + i][tempLocation.gety() + oneSide] != 0) {
+					if (Application.DEBUG) System.out.println("Collision dir down!");
+					return true;
+				}
+			}
+		}
+		else if (dir == Direction.LEFT) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				if (gameBoard[playerLoc.getx() - oneSide][playerLoc.gety() + i] != 0) {
+					if (Application.DEBUG) System.out.println("Collision dir left!");
 					return true;
 				}
 			}
@@ -199,7 +198,7 @@ public class PlayView extends JPanel implements ActionListener {
 	}
 	
 	public boolean checkOutOfBounds(Location loc) {
-		if (loc.getx() < 1 || loc.getx() >= WINDOW_WIDTH - 1 || loc.gety() < 1 || loc.gety() >= WINDOW_HEIGHT - 1) {
+		if (loc.getx() - oneSide < 1 || loc.getx() + oneSide >= WINDOW_WIDTH - 1 || loc.gety() - oneSide < 1 || loc.gety() + oneSide >= WINDOW_HEIGHT - 1) {
 			return true;
 		}
 		return false;
@@ -229,18 +228,32 @@ public class PlayView extends JPanel implements ActionListener {
 			stop();
 		}
 
-		if (p1.getDirection() == Direction.UP || p1.getDirection() == Direction.DOWN) {
+		if (p1.getDirection() == Direction.UP) {
 			for (int i = -oneSide; i <= oneSide; i++) {
-				gameBoard[tempLocation.getx() + i][tempLocation.gety()] = 1;
+				gameBoard[tempLocation.getx() + i][tempLocation.gety() - oneSide] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety(),
-					p1.getLocation().getx() + oneSide, p1.getLocation().gety()));
+			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+					p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide));
 		}
-		else {
+		else if (p1.getDirection() == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
-				gameBoard[tempLocation.getx()][tempLocation.gety() + i] = 1;
+				gameBoard[tempLocation.getx() + i][tempLocation.gety() + oneSide] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx(), p1.getLocation().gety() - oneSide, p1.getLocation().getx(),
+			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide,
+					p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
+		}
+		else if (p1.getDirection() == Direction.LEFT) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				gameBoard[tempLocation.getx() - oneSide][tempLocation.gety() + i] = 1;
+			}
+			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide, p1.getLocation().getx() - oneSide,
+					p1.getLocation().gety() + oneSide));
+		}
+		else if (p1.getDirection() == Direction.RIGHT) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				gameBoard[tempLocation.getx() + oneSide][tempLocation.gety() + i] = 1;
+			}
+			lines.add(new Line(p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide, p1.getLocation().getx() + oneSide,
 					p1.getLocation().gety() + oneSide));
 		}
 		currentLineCount++;
