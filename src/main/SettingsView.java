@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -56,13 +57,17 @@ public class SettingsView extends JPanel {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, "Play",
-				BUTTON_FONT, 1, 1, 4);
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, BUTTON_FONT,
+				1, 1, 4);
+		SelectField size = new SelectField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 400,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.MAGENTA, BUTTON_FONT,
+				new ArrayList<String>(Arrays.asList("Small", "Medium", "Large")), 0);
 		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Back",
 				BUTTON_FONT);
 
 		elementList.add(players);
+		elementList.add(size);
 		elementList.add(back);
 	}
 
@@ -104,6 +109,16 @@ public class SettingsView extends JPanel {
 		}
 
 		if (currentElement == 1) {
+			if (key == KeyEvent.VK_RIGHT) {
+				changeValue(1);
+			}
+
+			if (key == KeyEvent.VK_LEFT) {
+				changeValue(-1);
+			}
+		}
+
+		if (currentElement == 2) {
 			if (key == KeyEvent.VK_ENTER) {
 				backToMainMenu();
 			}
@@ -112,8 +127,9 @@ public class SettingsView extends JPanel {
 		repaint();
 	}
 
-	private void backToMainMenu() {		
+	private void backToMainMenu() {
 		if (application != null) {
+			application.size = ((SelectField) (elementList.get(1))).getText();
 			application.players = ((IntField) (elementList.get(0))).getValue();
 			application.swapMainMenu();
 		}
@@ -122,6 +138,14 @@ public class SettingsView extends JPanel {
 	private void changeValue(int num) {
 		if (elementList.get(currentElement) instanceof IntField) {
 			((IntField) elementList.get(currentElement)).changeValue(num);
+		}
+		else if (elementList.get(currentElement) instanceof SelectField) {
+			if (num == 1) {
+				((SelectField) elementList.get(currentElement)).next();
+			}
+			else {
+				((SelectField) elementList.get(currentElement)).previous();
+			}
 		}
 	}
 
@@ -143,11 +167,16 @@ public class SettingsView extends JPanel {
 		g2d.setColor(Palette.BLUE);
 		g2d.drawString("Settings", (WINDOW_WIDTH - titleMetrics.stringWidth("Settings")) / 2,
 				WINDOW_HEIGHT / TITLE_RATIO);
-		
-		// draw in button title
+
+		// draw in # players title
 		g2d.setFont(BUTTON_FONT);
 		g2d.setColor(Palette.LIME_GREEN);
 		g2d.drawString("Players:", elementList.get(0).getxCoord1() - 180, elementList.get(0).getyCoord1() + 34);
+		
+		// draw in player size title
+		g2d.setFont(BUTTON_FONT);
+		g2d.setColor(Palette.MAGENTA);
+		g2d.drawString("Width:", elementList.get(1).getxCoord1() - 180, elementList.get(1).getyCoord1() + 34);
 
 		// iterate through each button and draw it
 		for (int i = 0; i < elementList.size(); i++) {
@@ -157,6 +186,14 @@ public class SettingsView extends JPanel {
 				}
 				else {
 					MenuDrawing.draw((Button) elementList.get(i), g2d, false);
+				}
+			}
+			if (elementList.get(i) instanceof SelectField) {
+				if (i == currentElement) {
+					MenuDrawing.draw((SelectField) elementList.get(i), g2d, true);
+				}
+				else {
+					MenuDrawing.draw((SelectField) elementList.get(i), g2d, false);
 				}
 			}
 			else if (elementList.get(i) instanceof IntField) {

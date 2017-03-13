@@ -20,6 +20,7 @@ public class Application extends JFrame {
 	GameOverView gameOverView;
 	
 	int players = 1;
+	String size = "Small";
 	
 	public static final boolean DEBUG = true;
 
@@ -76,7 +77,10 @@ public class Application extends JFrame {
 		cards.add(playView, "Play");
 		cardLayout.show(cards, "Play");
 		
-		if (DEBUG) System.out.println(players + " players");
+		if (DEBUG) {
+			System.out.println(players + " players");
+			System.out.println(size + " player width");
+		}
 		
 		playView.start();
 	}
