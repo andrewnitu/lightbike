@@ -19,6 +19,8 @@ public class Application extends JFrame {
 	PlayView playView;
 	GameOverView gameOverView;
 	
+	int players = 1;
+	
 	public static final boolean DEBUG = true;
 
 	private static final String WINDOW_TITLE = "LightBike";
@@ -73,6 +75,9 @@ public class Application extends JFrame {
 		playView.setApp(this);
 		cards.add(playView, "Play");
 		cardLayout.show(cards, "Play");
+		
+		if (DEBUG) System.out.println(players + " players");
+		
 		playView.start();
 	}
 	
