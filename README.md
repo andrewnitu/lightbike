@@ -7,6 +7,6 @@ Multiplayer action game similar to Snake and Tron, cut your opponents off or tra
 
 ### Development
 
-Currently the game is quite basic, similar to Snake. We are focusing on game mechanics and fixing some errors, and then we'll build the base for the multiplayer gameplay.
+The singleplayer/local multiplayer gameplay is almost complete! Future plans are to add several maps, player colour customization, and look into online client/host multiplayer!
 
-Ideas and tips are welcome.
+Ideas and contributions are welcome.
