@@ -21,15 +21,13 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private final int DELAY = 10;
 
-	private int p1offset = 0;
-
-	private final int playerWidth = 33;
-	private final int oneSide = ((playerWidth - 1) / 2);
+	private int playerWidth = 0;
 	
-	private final int offsetThreshold = playerWidth;
-
-	Player p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.LIME_GREEN, true,
-			playerWidth);
+	private static final int SMALL_WIDTH = 7; //px
+	private static final int MEDIUM_WIDTH = 15; //px
+	private static final int LARGE_WIDTH = 23; //px
+	
+	private int oneSide;
 
 	private Location tempLocation;
 
@@ -42,6 +40,10 @@ public class PlayView extends JPanel implements ActionListener {
 	private Application application;
 
 	private Timer gameTime;
+
+	private int players;
+
+	private Player p1;
 
 	public PlayView() {
 	}
@@ -57,14 +59,14 @@ public class PlayView extends JPanel implements ActionListener {
 		initializeGame();
 		requestFocus();
 	}
-	
+
 	public void resume() {
 		requestFocus();
-		
+
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
 	}
-	
+
 	public void stop() {
 		gameTime.stop();
 	}
@@ -75,18 +77,32 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		
+
+		if (application.size.equals("Small")) {
+			playerWidth = SMALL_WIDTH;
+		}
+		else if (application.size.equals("Medium")) {
+			playerWidth = MEDIUM_WIDTH;
+		}
+		else if (application.size.equals("Large")) {
+			playerWidth = LARGE_WIDTH;
+		}
+		oneSide = ((playerWidth - 1) / 2);
+
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.LIME_GREEN,
+				true, playerWidth);
+
 		// set the starting indices
 		for (int i = -oneSide; i <= oneSide; i++) {
 			for (int j = -oneSide; j <= oneSide; j++) {
 				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
 			}
 		}
-		
+
 		// create the starting block for the player
 		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
-		
+				p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
+
 		gameTime = new Timer(DELAY, this);
 		gameTime.start();
 	}
@@ -129,18 +145,20 @@ public class PlayView extends JPanel implements ActionListener {
 						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide + currentLineCount));
 			}
 			else if (currentDirection == Direction.RIGHT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() + oneSide - currentLineCount, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() + oneSide - currentLineCount,
+						p1.getLocation().gety() - oneSide, p1.getLocation().getx() + oneSide,
+						p1.getLocation().gety() + oneSide));
 			}
 			else if (currentDirection == Direction.DOWN) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide - currentLineCount,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide,
+						p1.getLocation().gety() + oneSide - currentLineCount, p1.getLocation().getx() + oneSide,
+						p1.getLocation().gety() + oneSide));
 			}
 			else if (currentDirection == Direction.LEFT) {
 				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
 						p1.getLocation().getx() - oneSide + currentLineCount, p1.getLocation().gety() + oneSide));
 			}
-			
+
 			for (int i = -oneSide; i <= oneSide; i++) {
 				for (int j = -oneSide; j <= oneSide; j++) {
 					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
@@ -150,8 +168,6 @@ public class PlayView extends JPanel implements ActionListener {
 			lines.clear();
 			currentLineCount = 0;
 		}
-
-		p1offset = 0;
 	}
 
 	@Override
@@ -160,12 +176,13 @@ public class PlayView extends JPanel implements ActionListener {
 		move();
 		repaint();
 	}
-	
+
 	public boolean checkCollision(Location playerLoc, Direction dir) {
 		if (dir == Direction.UP) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[playerLoc.getx() + i][tempLocation.gety() - oneSide] != 0) {
-					if (Application.DEBUG) System.out.println("Collision dir up!");
+					if (Application.DEBUG)
+						System.out.println("Collision dir up!");
 					return true;
 				}
 			}
@@ -173,7 +190,8 @@ public class PlayView extends JPanel implements ActionListener {
 		else if (dir == Direction.RIGHT) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[playerLoc.getx() + oneSide][playerLoc.gety() + i] != 0) {
-					if (Application.DEBUG) System.out.println("Collision dir right!");
+					if (Application.DEBUG)
+						System.out.println("Collision dir right!");
 					return true;
 				}
 			}
@@ -181,7 +199,8 @@ public class PlayView extends JPanel implements ActionListener {
 		else if (dir == Direction.DOWN) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[playerLoc.getx() + i][tempLocation.gety() + oneSide] != 0) {
-					if (Application.DEBUG) System.out.println("Collision dir down!");
+					if (Application.DEBUG)
+						System.out.println("Collision dir down!");
 					return true;
 				}
 			}
@@ -189,24 +208,24 @@ public class PlayView extends JPanel implements ActionListener {
 		else if (dir == Direction.LEFT) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				if (gameBoard[playerLoc.getx() - oneSide][playerLoc.gety() + i] != 0) {
-					if (Application.DEBUG) System.out.println("Collision dir left!");
+					if (Application.DEBUG)
+						System.out.println("Collision dir left!");
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean checkOutOfBounds(Location loc) {
-		if (loc.getx() - oneSide < 1 || loc.getx() + oneSide >= WINDOW_WIDTH - 1 || loc.gety() - oneSide < 1 || loc.gety() + oneSide >= WINDOW_HEIGHT - 1) {
+		if (loc.getx() - oneSide < 1 || loc.getx() + oneSide >= WINDOW_WIDTH - 1 || loc.gety() - oneSide < 1
+				|| loc.gety() + oneSide >= WINDOW_HEIGHT - 1) {
 			return true;
 		}
 		return false;
 	}
 
 	public void move() {
-		p1offset++;
-		
 		tempLocation = p1.getLocation();
 
 		if (p1.getDirection() == Direction.UP) {
@@ -246,15 +265,15 @@ public class PlayView extends JPanel implements ActionListener {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				gameBoard[tempLocation.getx() - oneSide][tempLocation.gety() + i] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide, p1.getLocation().getx() - oneSide,
-					p1.getLocation().gety() + oneSide));
+			lines.add(new Line(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+					p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide));
 		}
 		else if (p1.getDirection() == Direction.RIGHT) {
 			for (int i = -oneSide; i <= oneSide; i++) {
 				gameBoard[tempLocation.getx() + oneSide][tempLocation.gety() + i] = 1;
 			}
-			lines.add(new Line(p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide, p1.getLocation().getx() + oneSide,
-					p1.getLocation().gety() + oneSide));
+			lines.add(new Line(p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide,
+					p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 		}
 		currentLineCount++;
 	}
