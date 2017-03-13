@@ -8,7 +8,7 @@ public class IntField extends Element {
 	public int min;
 	public int max;
 
-	public IntField(int x1, int y1, int x2, int y2, Color fldColor, String fldText, Font fldFont, int fldValue,
+	public IntField(int x1, int y1, int x2, int y2, Color fldColor, Font fldFont, int fldValue,
 			int fldMin, int fldMax) {
 		xCoord1 = x1;
 		yCoord1 = y1;
