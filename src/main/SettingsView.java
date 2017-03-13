@@ -44,6 +44,7 @@ public class SettingsView extends JPanel {
 	}
 
 	public void resume() {
+		currentElement = 0;
 		requestFocus();
 	}
 
@@ -111,8 +112,9 @@ public class SettingsView extends JPanel {
 		repaint();
 	}
 
-	private void backToMainMenu() {
+	private void backToMainMenu() {		
 		if (application != null) {
+			application.players = ((IntField) (elementList.get(0))).getValue();
 			application.swapMainMenu();
 		}
 	}
