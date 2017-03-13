@@ -45,8 +45,8 @@ public class GameOverView extends JPanel {
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.MAGENTA, "Main Menu",
+		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.MAGENTA, "Main Menu",
 				BUTTON_FONT);
 
 		buttonList.add(back);
