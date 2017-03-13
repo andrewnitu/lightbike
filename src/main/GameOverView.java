@@ -23,6 +23,11 @@ public class GameOverView extends JPanel {
 	
 	public void start() {
 		initializeGameOver();
+		resume();
+	}
+	
+	public void resume() {
+		requestFocus();
 	}
 	
 	public void initializeGameOver() {

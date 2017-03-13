@@ -135,12 +135,17 @@ public class SettingsView extends JPanel {
 		g2d.setColor(Palette.BLACK);
 		g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		// draw in the game name
+		// draw in the screen name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
 		g2d.setFont(TITLE_FONT);
 		g2d.setColor(Palette.BLUE);
 		g2d.drawString("Settings", (WINDOW_WIDTH - titleMetrics.stringWidth("Settings")) / 2,
 				WINDOW_HEIGHT / TITLE_RATIO);
+		
+		// draw in button title
+		g2d.setFont(BUTTON_FONT);
+		g2d.setColor(Palette.LIME_GREEN);
+		g2d.drawString("Players:", elementList.get(0).getxCoord1() - 180, elementList.get(0).getyCoord1() + 34);
 
 		// iterate through each button and draw it
 		for (int i = 0; i < elementList.size(); i++) {

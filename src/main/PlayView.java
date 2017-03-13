@@ -129,12 +129,12 @@ public class PlayView extends JPanel implements ActionListener {
 						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide + currentLineCount));
 			}
 			else if (currentDirection == Direction.RIGHT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide - currentLineCount, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() + oneSide - currentLineCount, p1.getLocation().gety() - oneSide,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 			}
 			else if (currentDirection == Direction.DOWN) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide - currentLineCount,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide));
+				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() + oneSide - currentLineCount,
+						p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 			}
 			else if (currentDirection == Direction.LEFT) {
 				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,

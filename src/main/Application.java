@@ -30,23 +30,23 @@ public class Application extends JFrame {
 	private void initialize() {
 		mainMenuView = new MainMenuView();
 		settingsView = new SettingsView();
-		playView = new PlayView();
+		//playView = new PlayView();
 		gameOverView = new GameOverView();
 		
 		// Set the references to this instance so that the views can call the change methods below
 		mainMenuView.setApp(this);
 		settingsView.setApp(this);
-		playView.setApp(this);
+		//playView.setApp(this);
 		gameOverView.setApp(this);
 
 		cards.add(mainMenuView, "MainMenu");
 		cards.add(settingsView, "Settings");
-		cards.add(playView, "Play");
-		cards.add(gameOverView, "GameOverView");
+		//cards.add(playView, "Play");
+		cards.add(gameOverView, "GameOver");
 		
 		mainMenuView.start();
 		settingsView.start();
-		playView.start();
+		//playView.start();
 		gameOverView.start();
 
 		setResizable(false);
@@ -69,13 +69,16 @@ public class Application extends JFrame {
 	}
 
 	public void swapPlay() {
+		playView = new PlayView();
+		playView.setApp(this);
+		cards.add(playView, "Play");
 		cardLayout.show(cards, "Play");
-		playView.resume();
+		playView.start();
 	}
 	
 	public void swapGameOver() {
 		cardLayout.show(cards, "GameOver");
-		//gameOverView.resume();
+		gameOverView.resume();
 	}
 
 	public static void main(String[] args) {
