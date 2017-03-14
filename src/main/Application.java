@@ -21,6 +21,7 @@ public class Application extends JFrame {
 	
 	int players = 1;
 	String size = "Small";
+	String speed = "Brisk";
 	
 	public static final boolean DEBUG = true;
 
@@ -80,6 +81,7 @@ public class Application extends JFrame {
 		if (DEBUG) {
 			System.out.println(players + " players");
 			System.out.println(size + " player width");
+			System.out.println(speed + " speed");
 		}
 		
 		playView.start();

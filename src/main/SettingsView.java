@@ -57,17 +57,21 @@ public class SettingsView extends JPanel {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.LIME_GREEN, BUTTON_FONT,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.GREEN, BUTTON_FONT,
 				1, 1, 4);
 		SelectField size = new SelectField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 400,
 				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.MAGENTA, BUTTON_FONT,
 				new ArrayList<String>(Arrays.asList("Small", "Medium", "Large")), 0);
-		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.RED, "Back",
+		SelectField speed = new SelectField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.ORANGE, BUTTON_FONT,
+				new ArrayList<String>(Arrays.asList("Lethargic", "Brisk", "Flying")), 1);
+		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 600,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 600 + BUTTON_HEIGHT, Palette.RED, "Back",
 				BUTTON_FONT);
 
 		elementList.add(players);
 		elementList.add(size);
+		elementList.add(speed);
 		elementList.add(back);
 	}
 
@@ -119,6 +123,16 @@ public class SettingsView extends JPanel {
 		}
 
 		if (currentElement == 2) {
+			if (key == KeyEvent.VK_RIGHT) {
+				changeValue(1);
+			}
+
+			if (key == KeyEvent.VK_LEFT) {
+				changeValue(-1);
+			}
+		}
+		
+		if (currentElement == 3) {
 			if (key == KeyEvent.VK_ENTER) {
 				backToMainMenu();
 			}
@@ -129,6 +143,7 @@ public class SettingsView extends JPanel {
 
 	private void backToMainMenu() {
 		if (application != null) {
+			application.speed = ((SelectField) (elementList.get(2))).getText();
 			application.size = ((SelectField) (elementList.get(1))).getText();
 			application.players = ((IntField) (elementList.get(0))).getValue();
 			application.swapMainMenu();
@@ -170,13 +185,18 @@ public class SettingsView extends JPanel {
 
 		// draw in # players title
 		g2d.setFont(BUTTON_FONT);
-		g2d.setColor(Palette.LIME_GREEN);
+		g2d.setColor(Palette.GREEN);
 		g2d.drawString("Players:", elementList.get(0).getxCoord1() - 180, elementList.get(0).getyCoord1() + 34);
 		
 		// draw in player size title
 		g2d.setFont(BUTTON_FONT);
 		g2d.setColor(Palette.MAGENTA);
 		g2d.drawString("Width:", elementList.get(1).getxCoord1() - 180, elementList.get(1).getyCoord1() + 34);
+		
+		// draw in speed title
+		g2d.setFont(BUTTON_FONT);
+		g2d.setColor(Palette.ORANGE);
+		g2d.drawString("Speed:", elementList.get(2).getxCoord1() - 180, elementList.get(2).getyCoord1() + 34);
 
 		// iterate through each button and draw it
 		for (int i = 0; i < elementList.size(); i++) {

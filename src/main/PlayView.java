@@ -19,7 +19,7 @@ public class PlayView extends JPanel implements ActionListener {
 	private final int WINDOW_WIDTH = Application.WINDOW_WIDTH;
 	private final int WINDOW_HEIGHT = Application.WINDOW_HEIGHT;
 
-	private final int DELAY = 10;
+	private int delay;
 
 	private int playerWidth = 0;
 	
@@ -63,7 +63,7 @@ public class PlayView extends JPanel implements ActionListener {
 	public void resume() {
 		requestFocus();
 
-		gameTime = new Timer(DELAY, this);
+		gameTime = new Timer(delay, this);
 		gameTime.start();
 	}
 
@@ -78,6 +78,16 @@ public class PlayView extends JPanel implements ActionListener {
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
+		if (application.speed.equals("Lethargic")) {
+			delay = 15;
+		}
+		else if (application.speed.equals("Brisk")) {
+			delay = 10;
+		}
+		else if (application.speed.equals("Flying")) {
+			delay = 5;
+		}
+		
 		if (application.size.equals("Small")) {
 			playerWidth = SMALL_WIDTH;
 		}
@@ -89,7 +99,7 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		oneSide = ((playerWidth - 1) / 2);
 
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.LIME_GREEN,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.GREEN,
 				true, playerWidth);
 
 		// set the starting indices
@@ -103,7 +113,7 @@ public class PlayView extends JPanel implements ActionListener {
 		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
 				p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 
-		gameTime = new Timer(DELAY, this);
+		gameTime = new Timer(delay, this);
 		gameTime.start();
 	}
 
