@@ -22,11 +22,11 @@ public class PlayView extends JPanel implements ActionListener {
 	private int delay;
 
 	private int playerWidth = 0;
-	
+
 	private static final int SMALL_WIDTH = 7; //px
 	private static final int MEDIUM_WIDTH = 15; //px
 	private static final int LARGE_WIDTH = 23; //px
-	
+
 	private int oneSide;
 
 	private Location tempLocation;
@@ -41,9 +41,10 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private Timer gameTime;
 
-	private int players;
+	private int numPlayers;
 
-	private Player p1;
+	private Player p1, p2, p3, p4;
+	private ArrayList<Player> players = new ArrayList<Player>();
 
 	public PlayView() {
 	}
@@ -87,7 +88,7 @@ public class PlayView extends JPanel implements ActionListener {
 		else if (application.speed.equals("Flying")) {
 			delay = 5;
 		}
-		
+
 		if (application.size.equals("Small")) {
 			playerWidth = SMALL_WIDTH;
 		}
@@ -99,13 +100,28 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		oneSide = ((playerWidth - 1) / 2);
 
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.GREEN,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.GREEN, true,
+				playerWidth);
+		players.add(p1);
+		
+		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + oneSide), Direction.DOWN, Palette.MAGENTA,
 				true, playerWidth);
+		players.add(p2);
+		
+		p3 = new Player(new Location(WINDOW_WIDTH / 2 + oneSide, WINDOW_HEIGHT / 2), Direction.UP, Palette.RED, true,
+				playerWidth);
+		players.add(p3);
+		
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - oneSide, WINDOW_HEIGHT / 2), Direction.UP, Palette.BLUE, true,
+				playerWidth);
+		players.add(p4);
 
 		// set the starting indices
-		for (int i = -oneSide; i <= oneSide; i++) {
-			for (int j = -oneSide; j <= oneSide; j++) {
-				gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
+		for (int p = 0; p < numPlayers; p++) {
+			for (int i = -oneSide; i <= oneSide; i++) {
+				for (int j = -oneSide; j <= oneSide; j++) {
+					gameBoard[players.get(p).getLocation().getx() + i][players.get(p).getLocation().gety() + j] = p + 1;
+				}
 			}
 		}
 
