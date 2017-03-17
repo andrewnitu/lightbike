@@ -117,11 +117,11 @@ public class PlayView extends JPanel implements ActionListener {
 				Palette.MAGENTA, true, playerWidth);
 		players.add(p2);
 
-		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * oneSide, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.RED,
+		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * oneSide, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.RED,
 				true, playerWidth);
 		players.add(p3);
 
-		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * oneSide, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.BLUE,
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * oneSide, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.BLUE,
 				true, playerWidth);
 		players.add(p4);
 
@@ -134,8 +134,8 @@ public class PlayView extends JPanel implements ActionListener {
 			}
 			// create the starting block for the player
 			playerRectangles.get(p)
-					.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
-							p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
+					.add(new Rectangle(players.get(p).getLocation().getx() - oneSide, players.get(p).getLocation().gety() - oneSide,
+							players.get(p).getLocation().getx() + oneSide, players.get(p).getLocation().gety() + oneSide));
 		}
 
 		gameTime = new Timer(delay, this);
@@ -396,7 +396,6 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void updateGame(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
