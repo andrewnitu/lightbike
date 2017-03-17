@@ -33,8 +33,8 @@ public class PlayView extends JPanel implements ActionListener {
 
 	// TODO: Initialize to 0s for readability
 	private int[][] gameBoard = new int[WINDOW_WIDTH][WINDOW_HEIGHT];
-	private ArrayList<Line> lines = new ArrayList<Line>();
-	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+	private ArrayList<ArrayList<Line>> playerLines = new ArrayList<ArrayList<Line>>();
+	private ArrayList<ArrayList<Rectangle>> playerRectangles = new ArrayList<ArrayList<Rectangle>>();
 	private int currentLineCount = 0;
 
 	private Application application;
@@ -99,35 +99,38 @@ public class PlayView extends JPanel implements ActionListener {
 			playerWidth = LARGE_WIDTH;
 		}
 		oneSide = ((playerWidth - 1) / 2);
+		
+		for (int p = 0; p < numPlayers; p++) {
+		playerRectangles.add(new ArrayList<Rectangle>());
+		}
 
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.GREEN, true,
-				playerWidth);
-		players.add(p1);
-		
-		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + oneSide), Direction.DOWN, Palette.MAGENTA,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * oneSide), Direction.UP, Palette.GREEN,
 				true, playerWidth);
+		players.add(p1);
+
+		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 4 * oneSide), Direction.DOWN,
+				Palette.MAGENTA, true, playerWidth);
 		players.add(p2);
-		
-		p3 = new Player(new Location(WINDOW_WIDTH / 2 + oneSide, WINDOW_HEIGHT / 2), Direction.UP, Palette.RED, true,
-				playerWidth);
+
+		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * oneSide, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.RED,
+				true, playerWidth);
 		players.add(p3);
-		
-		p4 = new Player(new Location(WINDOW_WIDTH / 2 - oneSide, WINDOW_HEIGHT / 2), Direction.UP, Palette.BLUE, true,
-				playerWidth);
+
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * oneSide, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.BLUE,
+				true, playerWidth);
 		players.add(p4);
 
-		// set the starting indices
 		for (int p = 0; p < numPlayers; p++) {
+			// set the starting indices
 			for (int i = -oneSide; i <= oneSide; i++) {
 				for (int j = -oneSide; j <= oneSide; j++) {
 					gameBoard[players.get(p).getLocation().getx() + i][players.get(p).getLocation().gety() + j] = p + 1;
 				}
 			}
+			// create the starting block for the player
+			playerRectangles.get(p).add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
+					p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 		}
-
-		// create the starting block for the player
-		rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
-				p1.getLocation().getx() + oneSide, p1.getLocation().gety() + oneSide));
 
 		gameTime = new Timer(delay, this);
 		gameTime.start();
@@ -144,7 +147,11 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void processKeyPressed(KeyEvent event) {
 		int key = event.getKeyCode();
-		Direction currentDirection = p1.getDirection();
+		ArrayList<Direction> currentDirections = new ArrayList<Direction>();
+
+		for (int p = 0; p < numPlayers; p++) {
+			currentDirections.add(players.get(p).getDirection());
+		}
 
 		if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
 			if (key == KeyEvent.VK_UP) {
@@ -162,37 +169,87 @@ public class PlayView extends JPanel implements ActionListener {
 				p1.setDirection(Direction.LEFT);
 			}
 		}
+		else if (p2.getDirection() != Direction.DOWN && p2.getDirection() != Direction.UP) {
+			if (key == KeyEvent.VK_W) {
+				p2.setDirection(Direction.UP);
+			}
+			else if (key == KeyEvent.VK_S) {
+				p2.setDirection(Direction.DOWN);
+			}
+		}
+		else if (p2.getDirection() != Direction.LEFT && p2.getDirection() != Direction.RIGHT) {
+			if (key == KeyEvent.VK_D) {
+				p2.setDirection(Direction.RIGHT);
+			}
+			else if (key == KeyEvent.VK_A) {
+				p2.setDirection(Direction.LEFT);
+			}
+		}
+		else if (p3.getDirection() != Direction.DOWN && p3.getDirection() != Direction.UP) {
+			if (key == KeyEvent.VK_T) {
+				p3.setDirection(Direction.UP);
+			}
+			else if (key == KeyEvent.VK_G) {
+				p3.setDirection(Direction.DOWN);
+			}
+		}
+		else if (p3.getDirection() != Direction.LEFT && p3.getDirection() != Direction.RIGHT) {
+			if (key == KeyEvent.VK_F) {
+				p3.setDirection(Direction.RIGHT);
+			}
+			else if (key == KeyEvent.VK_H) {
+				p3.setDirection(Direction.LEFT);
+			}
+		}
+		else if (p4.getDirection() != Direction.DOWN && p4.getDirection() != Direction.UP) {
+			if (key == KeyEvent.VK_I) {
+				p4.setDirection(Direction.UP);
+			}
+			else if (key == KeyEvent.VK_K) {
+				p4.setDirection(Direction.DOWN);
+			}
+		}
+		else if (p4.getDirection() != Direction.LEFT && p4.getDirection() != Direction.RIGHT) {
+			if (key == KeyEvent.VK_J) {
+				p4.setDirection(Direction.RIGHT);
+			}
+			else if (key == KeyEvent.VK_L) {
+				p4.setDirection(Direction.LEFT);
+			}
+		}
 
 		// executed when player changes direction
 		// convert individual lines to a big rectangle, change the player position, and update the corner indices
-		if (p1.getDirection() != currentDirection) {
-			if (currentDirection == Direction.UP) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() + oneSide, p1.getLocation().gety() - oneSide + currentLineCount));
-			}
-			else if (currentDirection == Direction.RIGHT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() + oneSide - currentLineCount,
-						p1.getLocation().gety() - oneSide, p1.getLocation().getx() + oneSide,
-						p1.getLocation().gety() + oneSide));
-			}
-			else if (currentDirection == Direction.DOWN) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide,
-						p1.getLocation().gety() + oneSide - currentLineCount, p1.getLocation().getx() + oneSide,
-						p1.getLocation().gety() + oneSide));
-			}
-			else if (currentDirection == Direction.LEFT) {
-				rectangles.add(new Rectangle(p1.getLocation().getx() - oneSide, p1.getLocation().gety() - oneSide,
-						p1.getLocation().getx() - oneSide + currentLineCount, p1.getLocation().gety() + oneSide));
-			}
-
-			for (int i = -oneSide; i <= oneSide; i++) {
-				for (int j = -oneSide; j <= oneSide; j++) {
-					gameBoard[p1.getLocation().getx() + i][p1.getLocation().gety() + j] = 1;
+		for (int p = 0; p < numPlayers; p++) {
+			if (players.get(p).getDirection() != currentDirections.get(p)) {
+				if (currentDirections.get(p) == Direction.UP) {
+					playerRectangles.get(p).add(new Rectangle(players.get(p).getLocation().getx() - oneSide, players.get(p).getLocation().gety() - oneSide,
+							players.get(p).getLocation().getx() + oneSide, players.get(p).getLocation().gety() - oneSide + currentLineCount));
 				}
-			}
+				else if (currentDirections.get(p) == Direction.RIGHT) {
+					playerRectangles.get(p).add(new Rectangle(players.get(p).getLocation().getx() + oneSide - currentLineCount,
+							players.get(p).getLocation().gety() - oneSide, players.get(p).getLocation().getx() + oneSide,
+							players.get(p).getLocation().gety() + oneSide));
+				}
+				else if (currentDirections.get(p) == Direction.DOWN) {
+					playerRectangles.get(p).add(new Rectangle(players.get(p).getLocation().getx() - oneSide,
+							players.get(p).getLocation().gety() + oneSide - currentLineCount, players.get(p).getLocation().getx() + oneSide,
+							players.get(p).getLocation().gety() + oneSide));
+				}
+				else if (currentDirections.get(p) == Direction.LEFT) {
+					playerRectangles.get(p).add(new Rectangle(players.get(p).getLocation().getx() - oneSide, players.get(p).getLocation().gety() - oneSide,
+							players.get(p).getLocation().getx() - oneSide + currentLineCount, players.get(p).getLocation().gety() + oneSide));
+				}
 
-			lines.clear();
-			currentLineCount = 0;
+				for (int i = -oneSide; i <= oneSide; i++) {
+					for (int j = -oneSide; j <= oneSide; j++) {
+						gameBoard[players.get(p).getLocation().getx() + i][players.get(p).getLocation().gety() + j] = p + 1;
+					}
+				}
+
+				playerLines.get(p).clear();
+				currentLineCount = 0;
+			}
 		}
 	}
 
