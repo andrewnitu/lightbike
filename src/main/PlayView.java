@@ -36,6 +36,8 @@ public class PlayView extends JPanel implements ActionListener {
 	private ArrayList<ArrayList<Line>> playerLines = new ArrayList<ArrayList<Line>>();
 	private ArrayList<ArrayList<Rectangle>> playerRectangles = new ArrayList<ArrayList<Rectangle>>();
 	private ArrayList<Integer> playerLineCounts = new ArrayList<Integer>();
+	private ArrayList<Integer> playersDead = new ArrayList<Integer>();
+	
 	private int currentLineCount = 0;
 
 	private Application application;
@@ -343,7 +345,7 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		
 		if (endGameCollision) {
-			application.swapGameOver();
+			application.swapGameOver(playersDead);
 			stop();
 		}
 		
@@ -368,6 +370,7 @@ public class PlayView extends JPanel implements ActionListener {
 				if (checkCollision(players.get(p).getLocation(), players.get(p).getDirection())
 						|| checkOutOfBounds(players.get(p).getLocation())) {
 					players.get(p).setAlive(false);
+					playersDead.add(p + 1);
 				}
 				else {
 					if (players.get(p).getDirection() == Direction.UP) {
