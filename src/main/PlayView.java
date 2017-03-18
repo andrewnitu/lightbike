@@ -198,36 +198,36 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		if (numPlayers >= 3) {
 			if (p3.getDirection() != Direction.DOWN && p3.getDirection() != Direction.UP) {
-				if (key == KeyEvent.VK_T) {
+				if (key == KeyEvent.VK_I) {
 					p3.setDirection(Direction.UP);
 				}
-				else if (key == KeyEvent.VK_G) {
+				else if (key == KeyEvent.VK_K) {
 					p3.setDirection(Direction.DOWN);
 				}
 			}
 			else if (p3.getDirection() != Direction.LEFT && p3.getDirection() != Direction.RIGHT) {
-				if (key == KeyEvent.VK_F) {
+				if (key == KeyEvent.VK_L) {
 					p3.setDirection(Direction.RIGHT);
 				}
-				else if (key == KeyEvent.VK_H) {
+				else if (key == KeyEvent.VK_J) {
 					p3.setDirection(Direction.LEFT);
 				}
 			}
 		}
 		if (numPlayers >= 4) {
 			if (p4.getDirection() != Direction.DOWN && p4.getDirection() != Direction.UP) {
-				if (key == KeyEvent.VK_I) {
+				if (key == KeyEvent.VK_T) {
 					p4.setDirection(Direction.UP);
 				}
-				else if (key == KeyEvent.VK_K) {
+				else if (key == KeyEvent.VK_G) {
 					p4.setDirection(Direction.DOWN);
 				}
 			}
 			else if (p4.getDirection() != Direction.LEFT && p4.getDirection() != Direction.RIGHT) {
-				if (key == KeyEvent.VK_J) {
+				if (key == KeyEvent.VK_H) {
 					p4.setDirection(Direction.RIGHT);
 				}
-				else if (key == KeyEvent.VK_L) {
+				else if (key == KeyEvent.VK_F) {
 					p4.setDirection(Direction.LEFT);
 				}
 			}
@@ -335,6 +335,18 @@ public class PlayView extends JPanel implements ActionListener {
 	}
 
 	public void move() {
+		boolean endGameCollision = true;
+		for (int p = 0; p < numPlayers; p++) {
+			if (players.get(p).getAlive()) {
+				endGameCollision = false;
+			}
+		}
+		
+		if (endGameCollision) {
+			application.swapGameOver();
+			stop();
+		}
+		
 		for (int p = 0; p < numPlayers; p++) {
 			if (players.get(p).getAlive()) {
 				tempLocation = players.get(p).getLocation();
@@ -357,51 +369,49 @@ public class PlayView extends JPanel implements ActionListener {
 						|| checkOutOfBounds(players.get(p).getLocation())) {
 					players.get(p).setAlive(false);
 				}
-
-				//application.swapGameOver();
-				//stop();
-
-				if (players.get(p).getDirection() == Direction.UP) {
-					for (int i = -oneSide; i <= oneSide; i++) {
-						gameBoard[tempLocation.getx() + i][tempLocation.gety() - oneSide] = 1;
+				else {
+					if (players.get(p).getDirection() == Direction.UP) {
+						for (int i = -oneSide; i <= oneSide; i++) {
+							gameBoard[tempLocation.getx() + i][tempLocation.gety() - oneSide] = 1;
+						}
+						playerLines.get(p)
+								.add(new Line(players.get(p).getLocation().getx() - oneSide,
+										players.get(p).getLocation().gety() - oneSide,
+										players.get(p).getLocation().getx() + oneSide,
+										players.get(p).getLocation().gety() - oneSide));
 					}
-					playerLines.get(p)
-							.add(new Line(players.get(p).getLocation().getx() - oneSide,
-									players.get(p).getLocation().gety() - oneSide,
-									players.get(p).getLocation().getx() + oneSide,
-									players.get(p).getLocation().gety() - oneSide));
-				}
-				else if (players.get(p).getDirection() == Direction.DOWN) {
-					for (int i = -oneSide; i <= oneSide; i++) {
-						gameBoard[tempLocation.getx() + i][tempLocation.gety() + oneSide] = 1;
+					else if (players.get(p).getDirection() == Direction.DOWN) {
+						for (int i = -oneSide; i <= oneSide; i++) {
+							gameBoard[tempLocation.getx() + i][tempLocation.gety() + oneSide] = 1;
+						}
+						playerLines.get(p)
+								.add(new Line(players.get(p).getLocation().getx() - oneSide,
+										players.get(p).getLocation().gety() + oneSide,
+										players.get(p).getLocation().getx() + oneSide,
+										players.get(p).getLocation().gety() + oneSide));
 					}
-					playerLines.get(p)
-							.add(new Line(players.get(p).getLocation().getx() - oneSide,
-									players.get(p).getLocation().gety() + oneSide,
-									players.get(p).getLocation().getx() + oneSide,
-									players.get(p).getLocation().gety() + oneSide));
-				}
-				else if (players.get(p).getDirection() == Direction.LEFT) {
-					for (int i = -oneSide; i <= oneSide; i++) {
-						gameBoard[tempLocation.getx() - oneSide][tempLocation.gety() + i] = 1;
+					else if (players.get(p).getDirection() == Direction.LEFT) {
+						for (int i = -oneSide; i <= oneSide; i++) {
+							gameBoard[tempLocation.getx() - oneSide][tempLocation.gety() + i] = 1;
+						}
+						playerLines.get(p)
+								.add(new Line(players.get(p).getLocation().getx() - oneSide,
+										players.get(p).getLocation().gety() - oneSide,
+										players.get(p).getLocation().getx() - oneSide,
+										players.get(p).getLocation().gety() + oneSide));
 					}
-					playerLines.get(p)
-							.add(new Line(players.get(p).getLocation().getx() - oneSide,
-									players.get(p).getLocation().gety() - oneSide,
-									players.get(p).getLocation().getx() - oneSide,
-									players.get(p).getLocation().gety() + oneSide));
-				}
-				else if (players.get(p).getDirection() == Direction.RIGHT) {
-					for (int i = -oneSide; i <= oneSide; i++) {
-						gameBoard[tempLocation.getx() + oneSide][tempLocation.gety() + i] = 1;
+					else if (players.get(p).getDirection() == Direction.RIGHT) {
+						for (int i = -oneSide; i <= oneSide; i++) {
+							gameBoard[tempLocation.getx() + oneSide][tempLocation.gety() + i] = 1;
+						}
+						playerLines.get(p)
+								.add(new Line(players.get(p).getLocation().getx() + oneSide,
+										players.get(p).getLocation().gety() - oneSide,
+										players.get(p).getLocation().getx() + oneSide,
+										players.get(p).getLocation().gety() + oneSide));
 					}
-					playerLines.get(p)
-							.add(new Line(players.get(p).getLocation().getx() + oneSide,
-									players.get(p).getLocation().gety() - oneSide,
-									players.get(p).getLocation().getx() + oneSide,
-									players.get(p).getLocation().gety() + oneSide));
+					playerLineCounts.set(p, playerLineCounts.get(p) + 1);
 				}
-				playerLineCounts.set(p, playerLineCounts.get(p) + 1);
 			}
 		}
 	}
