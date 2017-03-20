@@ -30,15 +30,18 @@ public class GameOverView extends JPanel {
 	private int currentElement = 0;
 
 	private Application application;
-	
+
+	// to hold the results of the game passed in through start() method
 	private ArrayList<Integer> results;
 
+	// put code to initialize this window here (arrays, variables will be clear)
 	public void start(ArrayList<Integer> newResults) {
 		initializeGameOver();
 		results = newResults;
 		resume();
 	}
 
+	// put code to resume this window here (arrays, variables will keep their values)
 	public void resume() {
 		requestFocus();
 	}
@@ -80,6 +83,7 @@ public class GameOverView extends JPanel {
 		repaint();
 	}
 
+	// call this method to return to the main menu
 	private void backToMain() {
 		if (application != null) {
 			application.swapMainMenu();
@@ -104,20 +108,25 @@ public class GameOverView extends JPanel {
 
 		// draw in the game over text
 		FontMetrics titleMetrics = g.getFontMetrics(GAME_OVER_FONT);
-		FontMetrics subheadingMetrics = g.getFontMetrics(SUBHEADING_FONT);
 		g2d.setFont(GAME_OVER_FONT);
 		g2d.setColor(Palette.WHITE);
 		g2d.drawString("Game Over!", (WINDOW_WIDTH - titleMetrics.stringWidth("Game Over!")) / 2, WINDOW_HEIGHT / 5);
-		
-		
+
+		// draw in the results subheading
 		g2d.setFont(SUBHEADING_FONT);
-		g2d.drawLine((WINDOW_WIDTH - subheadingMetrics.stringWidth("Results")) / 2, WINDOW_HEIGHT / 3 - 60, (WINDOW_WIDTH + subheadingMetrics.stringWidth("Results")) / 2, WINDOW_HEIGHT / 3 - 60);
+		FontMetrics subheadingMetrics = g.getFontMetrics(SUBHEADING_FONT);
+		g2d.drawLine((WINDOW_WIDTH - subheadingMetrics.stringWidth("Results")) / 2, WINDOW_HEIGHT / 3 - 60,
+				(WINDOW_WIDTH + subheadingMetrics.stringWidth("Results")) / 2, WINDOW_HEIGHT / 3 - 60);
 		g2d.drawString("Results", (WINDOW_WIDTH - subheadingMetrics.stringWidth("Results")) / 2, WINDOW_HEIGHT / 3);
-		
+
+		// draw the results table
 		g2d.setFont(TABLE_ENTRY_FONT);
 		for (int p = 0; p < results.size(); p++) {
 			g2d.drawString(p + 1 + "", WINDOW_WIDTH / 2 - 300, WINDOW_HEIGHT / 2 - 50 + 70 * p);
-			g2d.drawString("Player " + results.get(results.size() - 1 - p), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 50 + 70 * p);
+			
+			// reverse the read from this ArrayList because the first of ArrayList was the first to die
+			g2d.drawString("Player " + results.get(results.size() - 1 - p), WINDOW_WIDTH / 2,
+					WINDOW_HEIGHT / 2 - 50 + 70 * p);
 		}
 
 		// iterate through each button and draw it
