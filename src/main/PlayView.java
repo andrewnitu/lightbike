@@ -111,19 +111,19 @@ public class PlayView extends JPanel implements ActionListener {
 			playerLineCounts.add(0);
 		}
 
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * oneSide), Direction.UP, Palette.GREEN,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth), Direction.UP, Palette.GREEN,
 				true, playerWidth);
 		players.add(p1);
 
-		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 4 * oneSide), Direction.DOWN,
+		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 4 * playerWidth), Direction.DOWN,
 				Palette.MAGENTA, true, playerWidth);
 		players.add(p2);
 
-		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * oneSide, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.RED,
+		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.RED,
 				true, playerWidth);
 		players.add(p3);
 
-		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * oneSide, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.BLUE,
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.BLUE,
 				true, playerWidth);
 		players.add(p4);
 
