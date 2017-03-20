@@ -1,4 +1,4 @@
-#TODO
+# TODO
 - Gameover says who wins
 - Tournament mode
   - Save/Load tournaments
