@@ -29,7 +29,8 @@ public class MenuDrawing {
 
 		// drawing (or erasing) the selection border
 		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
-			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
+			g2d.setColor(Palette.RED);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
 		}
 	}
 
@@ -39,6 +40,7 @@ public class MenuDrawing {
 		int xCoord2 = e.getxCoord2();
 		int yCoord1 = e.getyCoord1();
 		int yCoord2 = e.getyCoord2();
+		Color valColor = Palette.BLUE;
 
 		int value = e.getValue();
 		String valueText = value + "";
@@ -51,6 +53,19 @@ public class MenuDrawing {
 
 		// drawing the button text
 		g2d.setFont(e.getFont());
+		//if (value == 1) g2d.setColor(Palette.GREEN);
+		switch (value) {
+			case 1: valColor = Palette.GREEN;
+				break;
+			case 2: valColor = Palette.BLUE;
+				break;
+			case 3: valColor = Palette.MAGENTA;
+				break;
+			case 4: valColor = Palette.RED;
+				break;
+			default: break;
+		}
+		g2d.setColor(valColor);
 		FontMetrics metrics = g2d.getFontMetrics(e.getFont());
 		int stringWidth = metrics.stringWidth(valueText);
 		int stringHeight = metrics.getHeight();
@@ -60,7 +75,8 @@ public class MenuDrawing {
 
 		// drawing (or erasing) the selection border
 		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
-			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
+			g2d.setColor(Palette.RED);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
 		}
 	}
 	
@@ -69,6 +85,7 @@ public class MenuDrawing {
 		int xCoord2 = e.getxCoord2();
 		int yCoord1 = e.getyCoord1();
 		int yCoord2 = e.getyCoord2();
+		Color valColor = Palette.BLUE;
 
 		String text = e.getText();
 
@@ -80,6 +97,19 @@ public class MenuDrawing {
 
 		// drawing the button text
 		g2d.setFont(e.getFont());
+		switch (text) {
+			case "Slow":
+			case "Small": valColor = Palette.GREEN;
+				break;
+			case "Medium": valColor = Palette.BLUE;
+				break;
+			case "Fast": valColor = Palette.MAGENTA;
+				break;
+			case "Impossible":
+			case "Large": valColor = Palette.RED;
+			default: break;
+		}
+		g2d.setColor(valColor);
 		FontMetrics metrics = g2d.getFontMetrics(e.getFont());
 		int stringWidth = metrics.stringWidth(text);
 		int stringHeight = metrics.getHeight();
@@ -89,7 +119,8 @@ public class MenuDrawing {
 
 		// drawing (or erasing) the selection border
 		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
-			g2d.drawRect(xCoord1 - 10, yCoord1 - 10, xCoord2 - xCoord1 + 20, yCoord2 - yCoord1 + 20);
+			g2d.setColor(Palette.RED);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
 		}
 	}
 }
