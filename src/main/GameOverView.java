@@ -43,6 +43,7 @@ public class GameOverView extends JPanel {
 
 	// put code to resume this window here (arrays, variables will keep their values)
 	public void resume() {
+		currentElement = 0;
 		requestFocus();
 	}
 
@@ -52,11 +53,16 @@ public class GameOverView extends JPanel {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-
-		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 600,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 600 + BUTTON_HEIGHT, Palette.MAGENTA, "Main Menu",
+		
+		Button retry = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.BLUE, "Retry",
 				BUTTON_FONT);
 
+		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 600,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 600 + BUTTON_HEIGHT, Palette.BLUE, "Main Menu",
+				BUTTON_FONT);
+
+		buttonList.add(retry);
 		buttonList.add(back);
 	}
 
@@ -73,13 +79,21 @@ public class GameOverView extends JPanel {
 
 		if (Application.DEBUG)
 			System.out.println("Key pressed in GameOverView.java");
-
-		if (key == KeyEvent.VK_ENTER || key == KeyEvent.VK_ESCAPE) {
+		
+		if (key == KeyEvent.VK_UP) {
+			changeButton(0);
+		}
+		else if (key == KeyEvent.VK_DOWN) {
+			changeButton(1);
+		}
+		if (key == KeyEvent.VK_ENTER) {
 			if (currentElement == 0) {
+				retry();
+			}
+			else if (currentElement == 1) {
 				backToMain();
 			}
 		}
-
 		repaint();
 	}
 
@@ -87,6 +101,29 @@ public class GameOverView extends JPanel {
 	private void backToMain() {
 		if (application != null) {
 			application.swapMainMenu();
+		}
+	}
+	
+	private void retry() {
+		if (application != null) {
+			application.swapPlay();
+		}
+	}
+	
+	public void changeButton(int direction) { // direction == 0 -> up, direction == 1 -> down
+		if (direction == 0) {
+			if (currentElement != 0) {
+				if (Application.DEBUG)
+					System.out.println("currentElement-- in SettingsView");
+				currentElement--;
+			}
+		}
+		else {
+			if (currentElement != buttonList.size() - 1) {
+				if (Application.DEBUG)
+					System.out.println("currentElement++ in SettingsView");
+				currentElement++;
+			}
 		}
 	}
 

@@ -57,16 +57,16 @@ public class SettingsView extends JPanel {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
 		IntField players = new IntField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 300,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.GREEN, BUTTON_FONT,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 300 + BUTTON_HEIGHT, Palette.BLUE , BUTTON_FONT,
 				1, 1, 4);
 		SelectField size = new SelectField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 400,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.MAGENTA, BUTTON_FONT,
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 400 + BUTTON_HEIGHT, Palette.BLUE, BUTTON_FONT,
 				new ArrayList<String>(Arrays.asList("Small", "Medium", "Large")), 0);
 		SelectField speed = new SelectField((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 500,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.ORANGE, BUTTON_FONT,
-				new ArrayList<String>(Arrays.asList("Lethargic", "Brisk", "Flying")), 1);
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 500 + BUTTON_HEIGHT, Palette.BLUE, BUTTON_FONT,
+				new ArrayList<String>(Arrays.asList("Slow", "Medium", "Fast", "Impossible")), 1);
 		Button back = new Button((WINDOW_WIDTH - BUTTON_WIDTH) / 2, 600,
-				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 600 + BUTTON_HEIGHT, Palette.RED, "Back",
+				(WINDOW_WIDTH - BUTTON_WIDTH) / 2 + BUTTON_WIDTH, 600 + BUTTON_HEIGHT, Palette.BLUE, "Back",
 				BUTTON_FONT);
 
 		elementList.add(players);
@@ -179,23 +179,23 @@ public class SettingsView extends JPanel {
 		// draw in the screen name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
 		g2d.setFont(TITLE_FONT);
-		g2d.setColor(Palette.BLUE);
+		g2d.setColor(Palette.GREEN);
 		g2d.drawString("Settings", (WINDOW_WIDTH - titleMetrics.stringWidth("Settings")) / 2,
 				WINDOW_HEIGHT / TITLE_RATIO);
 
 		// draw in # players title
 		g2d.setFont(BUTTON_FONT);
-		g2d.setColor(Palette.GREEN);
+		g2d.setColor(Palette.BLUE);
 		g2d.drawString("Players:", elementList.get(0).getxCoord1() - 180, elementList.get(0).getyCoord1() + 34);
 		
 		// draw in player size title
 		g2d.setFont(BUTTON_FONT);
-		g2d.setColor(Palette.MAGENTA);
-		g2d.drawString("Width:", elementList.get(1).getxCoord1() - 180, elementList.get(1).getyCoord1() + 34);
+		g2d.setColor(Palette.BLUE);
+		g2d.drawString("Size:", elementList.get(1).getxCoord1() - 180, elementList.get(1).getyCoord1() + 34);
 		
 		// draw in speed title
 		g2d.setFont(BUTTON_FONT);
-		g2d.setColor(Palette.ORANGE);
+		g2d.setColor(Palette.BLUE);
 		g2d.drawString("Speed:", elementList.get(2).getxCoord1() - 180, elementList.get(2).getyCoord1() + 34);
 
 		// iterate through each button and draw it

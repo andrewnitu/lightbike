@@ -81,17 +81,19 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-
 		numPlayers = application.players;
-
-		if (application.speed.equals("Lethargic")) {
-			delay = 15;
-		}
-		else if (application.speed.equals("Brisk")) {
-			delay = 10;
-		}
-		else if (application.speed.equals("Flying")) {
-			delay = 5;
+		
+		switch (application.speed) {
+			case "Slow": delay = 8;
+				break;
+			case "Medium": delay = 5;
+				break;
+			case "Fast": delay = 3;
+				break;
+			case "Impossible": delay = 1;
+				break;
+			default: delay = 5;
+				break;
 		}
 
 		if (application.size.equals("Small")) {
