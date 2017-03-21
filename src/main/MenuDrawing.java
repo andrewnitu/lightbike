@@ -27,10 +27,11 @@ public class MenuDrawing {
 		g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth) / 2,
 				yCoord1 + (yCoord2 - yCoord1 - stringHeight) / 2 + stringAscent);
 
-		// drawing (or erasing) the selection border
-		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
+		// drawing the selection border
+		if (drawBorder) {
 			g2d.setColor(Palette.RED);
 			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
+			g2d.drawRect(xCoord1 - 2, yCoord1 - 2, xCoord2 - xCoord1 + 4, yCoord2 - yCoord1 + 4);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class MenuDrawing {
 
 		// drawing the button text
 		g2d.setFont(e.getFont());
-		//if (value == 1) g2d.setColor(Palette.GREEN);
+		
 		switch (value) {
 			case 1: valColor = Palette.GREEN;
 				break;
@@ -73,10 +74,11 @@ public class MenuDrawing {
 		g2d.drawString(valueText, xCoord1 + (xCoord2 - xCoord1 - stringWidth) / 2,
 				yCoord1 + (yCoord2 - yCoord1 - stringHeight) / 2 + stringAscent);
 
-		// drawing (or erasing) the selection border
-		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
+		// drawing the selection border
+		if (drawBorder) {
 			g2d.setColor(Palette.RED);
-			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 1, yCoord2 - yCoord1 + 1);
+			g2d.drawRect(xCoord1 - 2, yCoord1 - 2, xCoord2 - xCoord1 + 4, yCoord2 - yCoord1 + 4);
 		}
 	}
 	
@@ -117,10 +119,11 @@ public class MenuDrawing {
 		g2d.drawString(text, xCoord1 + (xCoord2 - xCoord1 - stringWidth) / 2,
 				yCoord1 + (yCoord2 - yCoord1 - stringHeight) / 2 + stringAscent);
 
-		// drawing (or erasing) the selection border
-		if (drawBorder) { // if not iterating on the current button, set the drawing colour to black
+		// drawing the selection border
+		if (drawBorder) {
 			g2d.setColor(Palette.RED);
-			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
+			g2d.drawRect(xCoord1 - 1, yCoord1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
+			g2d.drawRect(xCoord1 - 2, yCoord1 - 2, xCoord2 - xCoord1 + 4, yCoord2 - yCoord1 + 4);
 		}
 	}
 }
