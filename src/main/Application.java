@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class Application extends JFrame {
@@ -46,12 +47,12 @@ public class Application extends JFrame {
 		cards.add(mainMenuView, "MainMenu");
 		cards.add(settingsView, "Settings");
 		//cards.add(playView, "Play");
-		cards.add(gameOverView, "GameOver");
+		//cards.add(gameOverView, "GameOver");
 		
 		mainMenuView.start();
 		settingsView.start();
 		//playView.start();
-		gameOverView.start();
+		//gameOverView.start();
 
 		setResizable(false);
 		setTitle(WINDOW_TITLE);
@@ -87,9 +88,19 @@ public class Application extends JFrame {
 		playView.start();
 	}
 	
-	public void swapGameOver() {
+	public void swapGameOver(ArrayList<Integer> results) {
+		gameOverView = new GameOverView();
+		gameOverView.setApp(this);
+		
+		if (DEBUG) {
+			for (int p = 0; p < players; p++) {
+				System.out.println("Player " + results.get(p) + " took " + (players - p) + " place");
+			}
+		}
+		
+		cards.add(gameOverView, "GameOver");
 		cardLayout.show(cards, "GameOver");
-		gameOverView.resume();
+		gameOverView.start(results);
 	}
 
 	public static void main(String[] args) {
