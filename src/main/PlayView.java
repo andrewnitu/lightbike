@@ -41,8 +41,6 @@ public class PlayView extends JPanel implements ActionListener {
 
 	private Timer gameTime;
 
-	private int players;
-
 	private Player p1;
 
 	public PlayView() {
@@ -77,8 +75,6 @@ public class PlayView extends JPanel implements ActionListener {
 		setDoubleBuffered(true);
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-
-		numPlayers = application.players;
 		
 		switch (application.speed) {
 			case "Slow": delay = 8;
@@ -91,6 +87,7 @@ public class PlayView extends JPanel implements ActionListener {
 				break;
 			default: delay = 5;
 				break;
+		}
 
 		if (application.size.equals("Small")) {
 			playerWidth = SMALL_WIDTH;
@@ -103,7 +100,7 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		oneSide = ((playerWidth - 1) / 2);
 
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - oneSide), Direction.UP, Palette.GREEN,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - playerWidth), Direction.UP, Palette.GREEN,
 				true, playerWidth);
 
 		// set the starting indices
