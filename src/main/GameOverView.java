@@ -35,6 +35,7 @@ public class GameOverView extends JPanel {
 	}
 
 	public void resume() {
+		currentElement = 0;
 		requestFocus();
 	}
 
