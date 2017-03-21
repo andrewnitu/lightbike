@@ -77,7 +77,7 @@ public class MenuDrawing {
 		// drawing the selection border
 		if (drawBorder) {
 			g2d.setColor(Palette.RED);
-			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 1, yCoord2 - yCoord1 + 1);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
 			g2d.drawRect(xCoord1 - 2, yCoord1 - 2, xCoord2 - xCoord1 + 4, yCoord2 - yCoord1 + 4);
 		}
 	}
@@ -122,7 +122,7 @@ public class MenuDrawing {
 		// drawing the selection border
 		if (drawBorder) {
 			g2d.setColor(Palette.RED);
-			g2d.drawRect(xCoord1 - 1, yCoord1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
+			g2d.drawRect(xCoord1 - 1, yCoord1 - 1, xCoord2 - xCoord1 + 2, yCoord2 - yCoord1 + 2);
 			g2d.drawRect(xCoord1 - 2, yCoord1 - 2, xCoord2 - xCoord1 + 4, yCoord2 - yCoord1 + 4);
 		}
 	}
