@@ -84,6 +84,7 @@ public class PlayView extends JPanel implements ActionListener {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		numPlayers = application.players;
 		
+		// Colours for different values selected
 		switch (application.speed) {
 			case "Slow": delay = 8;
 				break;
@@ -97,6 +98,7 @@ public class PlayView extends JPanel implements ActionListener {
 				break;
 		}
 
+		// Adjust player width
 		if (application.size.equals("Small")) {
 			playerWidth = SMALL_WIDTH;
 		}
@@ -108,12 +110,14 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 		oneSide = ((playerWidth - 1) / 2);
 
+		// Initialize the game arrays
 		for (int p = 0; p < numPlayers; p++) {
 			playerRectangles.add(new ArrayList<Rectangle>());
 			playerLines.add(new ArrayList<Line>());
 			playerLineCounts.add(0);
 		}
 
+		// Set up the players
 		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth), Direction.UP, Palette.GREEN,
 				true, playerWidth);
 		players.add(p1);
@@ -164,6 +168,7 @@ public class PlayView extends JPanel implements ActionListener {
 			currentDirections.add(players.get(p).getDirection());
 		}
 
+		// change the direction if the current direction is not along the same axis
 		if (numPlayers >= 1) {
 			if (p1.getDirection() != Direction.DOWN && p1.getDirection() != Direction.UP) {
 				if (key == KeyEvent.VK_UP) {
