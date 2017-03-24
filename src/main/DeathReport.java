@@ -3,21 +3,13 @@ package main;
 import java.util.ArrayList;
 
 public class DeathReport {
-	ArrayList<Integer> players;
-	int time;
+	ArrayList<Death> deaths;
 	
-	public DeathReport(ArrayList<Integer> newPlayers, int newTime) {
-		players = newPlayers;
-		time = newTime;
+	public DeathReport() {
+		deaths = new ArrayList<Death>();
 	}
 	
-	// Returns the players that died at this time.
-	public ArrayList<Integer> getPlayers() {
-		return players;
-	}
-	
-	// Returns the time at which this set of players died.
-	public int getTime() {
-		return time;
+	public void addDeath(int player, int time) {
+		deaths.add(new Death(player, time));
 	}
 }
