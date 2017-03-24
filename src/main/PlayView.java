@@ -36,14 +36,14 @@ public class PlayView extends JPanel implements ActionListener {
 	private ArrayList<ArrayList<Line>> playerLines = new ArrayList<ArrayList<Line>>();
 	private ArrayList<ArrayList<Rectangle>> playerRectangles = new ArrayList<ArrayList<Rectangle>>();
 	private ArrayList<Integer> playerLineCounts = new ArrayList<Integer>();
-	private ArrayList<Integer> playersDead = new ArrayList<Integer>();
-	private ArrayList<Integer> playerTies = new ArrayList<Integer>();
-	
+	private DeathReport playerDeaths = new DeathReport();
+
 	private int currentLineCount = 0;
 
 	private Application application;
 
 	private Timer gameTime;
+	private int timeElapsed;
 
 	private int numPlayers = 2;
 
@@ -83,19 +83,25 @@ public class PlayView extends JPanel implements ActionListener {
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		numPlayers = application.players;
-		
+		timeElapsed = 0;
+
 		// Colours for different values selected
 		switch (application.speed) {
-			case "Slow": delay = 8;
-				break;
-			case "Medium": delay = 5;
-				break;
-			case "Fast": delay = 3;
-				break;
-			case "Impossible": delay = 1;
-				break;
-			default: delay = 5;
-				break;
+		case "Slow":
+			delay = 8;
+			break;
+		case "Medium":
+			delay = 5;
+			break;
+		case "Fast":
+			delay = 3;
+			break;
+		case "Impossible":
+			delay = 1;
+			break;
+		default:
+			delay = 5;
+			break;
 		}
 
 		// Adjust player width
@@ -118,20 +124,20 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 
 		// Set up the players
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth), Direction.UP, Palette.GREEN,
-				true, playerWidth);
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth), Direction.UP,
+				Palette.GREEN, true, playerWidth);
 		players.add(p1);
 
 		p2 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 4 * playerWidth), Direction.DOWN,
 				Palette.MAGENTA, true, playerWidth);
 		players.add(p2);
 
-		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.RIGHT, Palette.RED,
-				true, playerWidth);
+		p3 = new Player(new Location(WINDOW_WIDTH / 2 + 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.RIGHT,
+				Palette.RED, true, playerWidth);
 		players.add(p3);
 
-		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.LEFT, Palette.BLUE,
-				true, playerWidth);
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.LEFT,
+				Palette.BLUE, true, playerWidth);
 		players.add(p4);
 
 		for (int p = 0; p < numPlayers; p++) {
@@ -345,19 +351,20 @@ public class PlayView extends JPanel implements ActionListener {
 	}
 
 	public void move() {
+		timeElapsed++;
 		boolean endGameCollision = true;
+		
 		for (int p = 0; p < numPlayers; p++) {
 			if (players.get(p).getAlive()) {
 				endGameCollision = false;
 			}
 		}
-		
+
 		if (endGameCollision) {
-			application.swapGameOver(playersDead, playerTies);
+			application.swapGameOver(playerDeaths);
 			stop();
-		}		
-		
-		boolean tie = false;
+		}
+
 		for (int p = 0; p < numPlayers; p++) {
 			if (players.get(p).getAlive()) {
 				tempLocation = players.get(p).getLocation();
@@ -378,16 +385,8 @@ public class PlayView extends JPanel implements ActionListener {
 
 				if (checkCollision(players.get(p).getLocation(), players.get(p).getDirection())
 						|| checkOutOfBounds(players.get(p).getLocation())) {
-					if (!tie) {
 					players.get(p).setAlive(false);
-					playersDead.add(p + 1);
-					tie = true;
-					}
-					else {
-						players.get(p).setAlive(false);
-						playersDead.add(p + 1);
-						playerTies.add(p + 1);
-					}
+					playerDeaths.addDeath(p + 1, timeElapsed);
 				}
 				else {
 					if (players.get(p).getDirection() == Direction.UP) {
