@@ -46,6 +46,7 @@ public class PlayView extends JPanel implements ActionListener {
 	private int timeElapsed;
 
 	private int numPlayers = 2;
+	private int numAlive;
 
 	private Player p1, p2, p3, p4;
 	private ArrayList<Player> players = new ArrayList<Player>();
@@ -65,6 +66,7 @@ public class PlayView extends JPanel implements ActionListener {
 		requestFocus();
 	}
 
+	// unused
 	public void resume() {
 		requestFocus();
 
@@ -83,6 +85,7 @@ public class PlayView extends JPanel implements ActionListener {
 		setBackground(Palette.BLACK);
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		numPlayers = application.players;
+		numAlive = numPlayers;
 		timeElapsed = 0;
 
 		// Colours for different values selected
@@ -352,15 +355,7 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void move() {
 		timeElapsed++;
-		boolean endGameCollision = true;
-		
-		for (int p = 0; p < numPlayers; p++) {
-			if (players.get(p).getAlive()) {
-				endGameCollision = false;
-			}
-		}
-
-		if (endGameCollision) {
+		if (numAlive == 1) {
 			application.swapGameOver(playerDeaths);
 			stop();
 		}
@@ -387,6 +382,7 @@ public class PlayView extends JPanel implements ActionListener {
 						|| checkOutOfBounds(players.get(p).getLocation())) {
 					players.get(p).setAlive(false);
 					playerDeaths.addDeath(p + 1, timeElapsed);
+					numAlive--;
 				}
 				else {
 					if (players.get(p).getDirection() == Direction.UP) {
