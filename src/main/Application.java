@@ -100,7 +100,7 @@ public class Application extends JFrame {
 		
 		cards.add(gameOverView, "GameOver");
 		cardLayout.show(cards, "GameOver");
-		//gameOverView.start(deads, ties);
+		gameOverView.start(playerDeaths);
 	}
 
 	public static void main(String[] args) {

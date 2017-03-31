@@ -12,4 +12,10 @@ public class DeathReport {
 	public void addDeath(int player, int time) {
 		deaths.add(new Death(player, time));
 	}
+	
+	ArrayList<Integer> processDeaths() {
+		ArrayList<Integer> results = new ArrayList<Integer>();
+		
+		return results;
+	}
 }

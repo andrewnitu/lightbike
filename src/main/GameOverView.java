@@ -33,13 +33,11 @@ public class GameOverView extends JPanel {
 
 	// to hold the results of the game passed in through start() method
 	private ArrayList<Integer> results;
-	private ArrayList<Integer> ties;
 
 	// put code to initialize this window here (arrays, variables will be clear)
-	public void start(ArrayList<Integer> newResults, ArrayList<Integer> newTies) {
+	public void start(DeathReport newPlayerDeaths) {
 		initializeGameOver();
-		results = newResults;
-		ties = newTies;
+		results = newPlayerDeaths.processDeaths();
 		resume();
 	}
 
