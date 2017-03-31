@@ -14,7 +14,10 @@ public class DeathReport {
 	}
 	
 	ArrayList<Integer> processDeaths() {
+		int ranking = 0;
 		ArrayList<Integer> results = new ArrayList<Integer>();
+		
+		
 		
 		return results;
 	}

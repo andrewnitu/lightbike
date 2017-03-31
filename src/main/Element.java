@@ -5,26 +5,26 @@ import java.awt.Font;
 
 public abstract class Element {
 	public Font font;
-	public int xCoord1;
-	public int yCoord1;
-	public int xCoord2;
-	public int yCoord2;
+	public int x1;
+	public int y1;
+	public int x2;
+	public int y2;
 	public Color color;
 
 	public int getxCoord1() {
-		return xCoord1;
+		return x1;
 	}
 
 	public int getxCoord2() {
-		return xCoord2;
+		return x2;
 	}
 
 	public int getyCoord1() {
-		return yCoord1;
+		return y1;
 	}
 
 	public int getyCoord2() {
-		return yCoord2;
+		return y2;
 	}
 
 	public Color getColor() {
