@@ -159,11 +159,11 @@ public class GameOverView extends JPanel {
 		// draw the results table
 		g2d.setFont(TABLE_ENTRY_FONT);
 		for (int p = 0; p < results.size(); p++) {
-			g2d.drawString(p + 1 + "", WINDOW_WIDTH / 2 - 300, WINDOW_HEIGHT / 2 - 50 + 70 * p);
+			g2d.drawString(p + 1 + "", WINDOW_WIDTH / 2 - 300, WINDOW_HEIGHT / 2 - 50 + 50 * p);
 			
 			// reverse the read from this ArrayList because the first of ArrayList was the first to die
 			g2d.drawString("Player " + results.get(results.size() - 1 - p), WINDOW_WIDTH / 2,
-					WINDOW_HEIGHT / 2 - 50 + 70 * p);
+					WINDOW_HEIGHT / 2 - 50 + 50 * p);
 		}
 
 		// iterate through each button and draw it
