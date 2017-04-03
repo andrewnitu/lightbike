@@ -127,7 +127,7 @@ public class PlayView extends JPanel implements ActionListener {
 		}
 
 		// Set up the players
-		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth), Direction.UP,
+		p1 = new Player(new Location(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 - 4 * playerWidth - 1), Direction.UP,
 				Palette.GREEN, true, playerWidth);
 		players.add(p1);
 
@@ -139,7 +139,7 @@ public class PlayView extends JPanel implements ActionListener {
 				Palette.RED, true, playerWidth);
 		players.add(p3);
 
-		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * playerWidth, WINDOW_HEIGHT / 2), Direction.LEFT,
+		p4 = new Player(new Location(WINDOW_WIDTH / 2 - 4 * playerWidth - 1, WINDOW_HEIGHT / 2), Direction.LEFT,
 				Palette.BLUE, true, playerWidth);
 		players.add(p4);
 
@@ -355,7 +355,22 @@ public class PlayView extends JPanel implements ActionListener {
 
 	public void move() {
 		timeElapsed++;
+
+		if (Application.DEBUG)
+			System.out.println("timeElapsed++");
+
 		if (numAlive == 1) {
+			for (int p = 0; p < numPlayers; p++) {
+				if (players.get(p).getAlive()) {
+					playerDeaths.addDeath(p + 1, timeElapsed + 100); // register the last death at a different time
+					players.get(p).setAlive(false);
+				}
+			}
+			application.swapGameOver(playerDeaths);
+			stop();
+		}
+
+		if (numAlive == 0) {
 			application.swapGameOver(playerDeaths);
 			stop();
 		}
@@ -382,6 +397,8 @@ public class PlayView extends JPanel implements ActionListener {
 						|| checkOutOfBounds(players.get(p).getLocation())) {
 					players.get(p).setAlive(false);
 					playerDeaths.addDeath(p + 1, timeElapsed);
+					if (Application.DEBUG)
+						System.out.println("Player" + (p + 1) + "died");
 					numAlive--;
 				}
 				else {
