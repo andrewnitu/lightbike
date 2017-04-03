@@ -132,7 +132,7 @@ public class MainMenuView extends JPanel {
 		// draw in the game name
 		FontMetrics titleMetrics = g.getFontMetrics(TITLE_FONT);
 		g2d.setFont(TITLE_FONT);
-		g2d.setColor(Palette.GREEN);
+		g2d.setColor(Palette.BLUE);
 		g2d.drawString("LightBike", (WINDOW_WIDTH - titleMetrics.stringWidth("LightBike")) / 2,
 				WINDOW_HEIGHT / TITLE_RATIO);
 
