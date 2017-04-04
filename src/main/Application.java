@@ -88,19 +88,19 @@ public class Application extends JFrame {
 		playView.start();
 	}
 	
-	public void swapGameOver(ArrayList<Integer> results) {
+	public void swapGameOver(DeathReport playerDeaths) {
 		gameOverView = new GameOverView();
 		gameOverView.setApp(this);
 		
 		if (DEBUG) {
 			for (int p = 0; p < players; p++) {
-				System.out.println("Player " + results.get(p) + " took " + (players - p) + " place");
+				//System.out.println("Player " + deads.get(p) + " took " + (players - p) + " place");
 			}
 		}
 		
 		cards.add(gameOverView, "GameOver");
 		cardLayout.show(cards, "GameOver");
-		gameOverView.start(results);
+		gameOverView.start(playerDeaths);
 	}
 
 	public static void main(String[] args) {
