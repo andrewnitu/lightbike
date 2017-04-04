@@ -1,5 +1,6 @@
 # TODO
-- [ ] Check for ties in game
+- [x] Check for ties in game
+  - [ ] Figure out something for head-on collisions, what to do?
 - [x] Display game results on game over screen
   - [ ] Improve styling
 - [ ] Tournament Mode
